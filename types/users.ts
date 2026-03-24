@@ -4,10 +4,11 @@ id: string;
   name: string;
   email: string;
   role: "admin" | "user" | "guest" | "creator";
-  image?: string;
+  avatar?: string;
   status?: "Active" | "Inactive" | "Pending";
   location?: string;
-  date?: string;
+  createdAt?: string;
+  updatedAt?: string;
   phone?: string;
-  
+  permissions?: string[];
 }
