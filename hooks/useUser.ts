@@ -9,6 +9,7 @@ import {
   selectCurrentUser,
   selectIsAuthenticated,
 } from "@/redux/features/authSlice";
+import { useLogoutMutation } from "@/redux/services/authApi";
 import { usersData } from "@/data/usersData";
 
 export interface UserInfo {
@@ -88,30 +89,33 @@ export function useUser() {
 
   const hasRole = (role: string) => redUser?.role === role;
 
-  const logout = () => {
-    // 1. Clear Redux State
+  const [logoutBackend] = useLogoutMutation();
+
+  const logout = async () => {
+    try {
+      // 1. Call backend to clear HttpOnly cookies
+      await logoutBackend().unwrap();
+    } catch (err) {
+      console.error("Backend logout failed:", err);
+    }
+
+    // 2. Clear Redux State
     dispatch(logoutAction());
 
-    // 2. Clear Cookies
-    document.cookie =
-      "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie =
-      "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie =
-      "userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie =
-      "userEmail=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie =
-      "userPermissions=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    // 3. Clear Client-side Cookies
+    const cookiesToClear = ["accessToken", "refreshToken", "userRole", "userEmail", "userPermissions", "reset_verified"];
+    cookiesToClear.forEach(name => {
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    });
 
     console.log("User logged out successfully");
 
-    // 3. Redirect
+    // 4. Redirect
     router.push("/");
   };
 
   const hasPermission = (atom: string) => {
-    if (redUser?.role === 'Admin') return true;
+    if (redUser?.role?.toLowerCase() === 'admin') return true;
     return redUser?.permissions?.includes(atom) || false;
   };
 

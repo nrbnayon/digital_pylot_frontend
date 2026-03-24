@@ -15,7 +15,7 @@ const ENV = {
 // Cookie Keys
 const COOKIES = {
   ACCESS_TOKEN: "accessToken",
-  REFRESH_TOKEN: "jwt", // backend sets 'jwt' for refresh token
+  REFRESH_TOKEN: "refreshToken", 
   USER_PERMISSIONS: "userPermissions",
   USER_ROLE: "userRole", // Still kept for landing redirects
   CSRF_TOKEN: "csrfToken",

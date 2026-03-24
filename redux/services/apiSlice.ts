@@ -21,11 +21,10 @@ const setCookie = (name: string, value: string, days = 7) => {
 // Helper to clear cookies
 const clearAuthCookies = () => {
   if (typeof document === 'undefined') return;
-  document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  document.cookie = "userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  document.cookie = "userEmail=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  document.cookie = "userPermissions=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  const cookiesToClear = ["accessToken", "refreshToken", "userRole", "userEmail", "userPermissions", "reset_verified"];
+  cookiesToClear.forEach(name => {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  });
 };
 
 interface RefreshTokenResponse {
@@ -67,8 +66,7 @@ const baseQueryWithReauth: typeof baseQuery = async (
 
   if (result.error && result.error.status === 401) {
     const state = api.getState() as RootState;
-    // Next.js HttpOnly cookies can't be read by getCookie. Oh wait, we will use 'refreshToken' or 'jwt' which our login now returns!
-    const refreshToken = getCookie("jwt"); // or state.auth.refreshToken if stored in state.
+    const refreshToken = getCookie("refreshToken"); 
 
     if (!refreshToken) {
       api.dispatch(logout());

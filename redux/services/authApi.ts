@@ -12,7 +12,7 @@ interface SigninResponse {
   email: string;
   role: string | "admin" | "manager" | "agent" | "customer" | "user";
   permissions: string[];
-  token: string;
+  accessToken: string; // renamed
   refreshToken: string;
 }
 
@@ -20,6 +20,12 @@ interface SignupRequest {
   name: string;
   email: string;
   password: string;
+}
+
+interface SignupResponse {
+  message: string;
+  email: string;
+  status: string;
 }
 
 interface VerifyOtpRequest {
@@ -66,7 +72,7 @@ export const authApi = apiSlice.injectEndpoints({
     }),
 
     // Signup endpoint
-    signup: builder.mutation<SigninResponse, SignupRequest>({
+    signup: builder.mutation<SignupResponse, SignupRequest>({
       query: (credentials) => ({
         url: '/auth/register',
         method: 'POST',

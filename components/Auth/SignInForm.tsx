@@ -74,15 +74,15 @@ export const SignInForm = ({ isAdmin = false }: SignInFormProps) => {
       dispatch(
         setCredentials({
           user: userPayload,
-          token: response.token,
+          token: response.accessToken, // use renamed field
         })
       );
 
       const maxAge = cleanData.rememberMe ? 86400 * 7 : undefined;
 
       // Ensure access token is saved in cookie for hydration
-      document.cookie = `accessToken=${response.token}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
-      document.cookie = `jwt=${response.refreshToken}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
+      document.cookie = `accessToken=${response.accessToken}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
+      document.cookie = `refreshToken=${response.refreshToken}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
       document.cookie = `userRole=${userPayload.role}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
       document.cookie = `userEmail=${encodeURIComponent(userPayload.email)}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
       document.cookie = `userPermissions=${encodeURIComponent(JSON.stringify(userPayload.permissions))}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;

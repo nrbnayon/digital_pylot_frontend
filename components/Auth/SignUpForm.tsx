@@ -58,8 +58,8 @@ export const SignUpForm = () => {
         password: data.password
       }).unwrap();
 
-      toast.success("Account created successfully! Please log in.");
-      router.push("/signin");
+      toast.success("Registration successful! Please verify your email with the OTP sent.");
+      router.push(`/verify-otp?email=${encodeURIComponent(data.email)}&flow=signup`);
     } catch (error: any) {
       console.error("Signup error:", error);
       toast.error(error?.data?.message || "Registration failed. Please try again.");

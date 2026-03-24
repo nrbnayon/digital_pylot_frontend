@@ -1,46 +1,63 @@
 "use client";
 
-import { useSearchParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Suspense } from 'react';
+import { Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { ShieldAlert, Home, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-function ForbiddenContent() {
+const ForbiddenContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const atom = searchParams.get('atom');
+  const atom = searchParams.get("atom");
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-gray-900 p-4">
-      <div className="max-w-md text-center bg-white p-8 rounded-xl shadow-lg border border-red-100">
-        <h1 className="text-6xl font-bold text-red-500 mb-4">403</h1>
-        <h2 className="text-2xl font-semibold mb-2">Access Forbidden</h2>
-        <p className="text-gray-600 mb-6">
-          You do not have permission to view this page.
-          {atom && (
-             <span className="block mt-2 text-sm text-gray-400 bg-gray-50 p-2 rounded-md border border-gray-100 italic">
-               Missing required atom: <strong className="text-gray-600 font-mono">{atom}</strong>
-             </span>
-          )}
-        </p>
-
-        <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:space-x-3 justify-center mt-8">
-          <button 
-            onClick={() => router.back()}
-            className="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 transition-colors"
-          >
-            Go Back
-          </button>
-          <Link 
-            href="/"
-            className="px-5 py-2.5 rounded-lg border border-transparent bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
-          >
-            Return Home
-          </Link>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center space-y-6 border border-gray-100">
+        <div className="flex justify-center">
+          <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center text-red-500 animate-pulse">
+            <ShieldAlert size={40} />
+          </div>
         </div>
+        
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold text-gray-900">Access Denied</h1>
+          <p className="text-gray-500">
+            You do not have the necessary permissions to access this page.
+          </p>
+        </div>
+
+        {atom && (
+          <div className="bg-red-50 p-3 rounded-lg border border-red-100">
+            <p className="text-xs font-mono text-red-600 uppercase tracking-widest font-bold mb-1">Missing Permission Atom</p>
+            <p className="text-sm font-semibold text-red-800">{atom}</p>
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-4 pt-4">
+          <Button 
+            variant="outline" 
+            onClick={() => router.back()}
+            className="flex items-center gap-2 h-12 rounded-xl"
+          >
+            <ArrowLeft size={18} />
+            Go Back
+          </Button>
+          <Button 
+            onClick={() => router.push("/")}
+            className="flex items-center gap-2 h-12 rounded-xl bg-primary hover:bg-primary/90"
+          >
+            <Home size={18} />
+            Home
+          </Button>
+        </div>
+
+        <p className="text-xs text-gray-400">
+          If you believe this is an error, please contact your administrator.
+        </p>
       </div>
     </div>
   );
-}
+};
 
 export default function ForbiddenPage() {
   return (
