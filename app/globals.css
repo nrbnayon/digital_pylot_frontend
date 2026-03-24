@@ -1,0 +1,231 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ===== Theme Mapping ===== */
+@theme inline {
+  --color-background:              var(--background);
+  --color-foreground:              var(--foreground);
+  --font-clash:                    var(--font-clash-display), "Clash Display", sans-serif;
+  --font-sans:                     var(--font-inter);
+  --font-onest:                    var(--font-onest), "Onest", sans-serif;
+  --font-mono:                     var(--font-geist-mono);
+
+  --color-primary:                 var(--primary);
+  --color-primary-foreground:      var(--primary-foreground);
+  --color-secondary:               var(--secondary);
+  --color-secondary-foreground:    var(--secondary-foreground);
+  --color-accent:                  var(--accent);
+  --color-accent-foreground:       var(--accent-foreground);
+
+  --color-muted:                   var(--muted);
+  --color-muted-foreground:        var(--muted-foreground);
+  --color-card:                    var(--card);
+  --color-card-foreground:         var(--card-foreground);
+  --color-popover:                 var(--popover);
+  --color-popover-foreground:      var(--popover-foreground);
+
+  --color-border:                  var(--border);
+  --color-input:                   var(--input);
+  --color-ring:                    var(--ring);
+  --color-destructive:             var(--destructive);
+  --color-error:                   var(--error);
+  --color-error-foreground:        var(--error-foreground);
+
+  --color-sidebar:                 var(--sidebar);
+  --color-sidebar-foreground:      var(--sidebar-foreground);
+  --color-sidebar-primary:         var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent:          var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border:          var(--sidebar-border);
+  --color-sidebar-ring:            var(--sidebar-ring);
+
+  --color-chart-1:                 var(--chart-1);
+  --color-chart-2:                 var(--chart-2);
+  --color-chart-3:                 var(--chart-3);
+  --color-chart-4:                 var(--chart-4);
+  --color-chart-5:                 var(--chart-5);
+
+  --radius-sm:   calc(var(--radius) - 4px);
+  --radius-md:   calc(var(--radius) - 2px);
+  --radius-lg:   var(--radius);
+  --radius-xl:   calc(var(--radius) + 4px);
+  --radius-2xl:  calc(var(--radius) + 8px);
+  --radius-3xl:  calc(var(--radius) + 12px);
+  --radius-4xl:  calc(var(--radius) + 16px);
+}
+
+/* ===== Light Theme — QuickHire Design Tokens ===== */
+:root {
+  --radius: 0.5rem;
+
+  /* Backgrounds */
+  --background:        #F8F8FD; 
+  --foreground:        #1F232A; 
+
+  /* Brand */
+  --primary:           #FD6D3F; 
+  --primary-foreground:#FFFFFF;
+  --accent:            #26A4FF; 
+  --accent-foreground: #FFFFFF;
+
+  /* Secondary / Neutral */
+  --secondary:         #666C79; 
+  --secondary-foreground: #FFFFFF;
+
+  /* Muted */
+  --muted:             #F8F8FD; 
+  --muted-foreground:  #7C8493; 
+
+  /* Cards & Popovers */
+  --card:              #FFFFFF;
+  --card-foreground:   #25324B;
+  --popover:           #FFFFFF;
+  --popover-foreground:#25324B;
+
+  /* Borders & Inputs */
+  --border:            #D6DDEB; 
+  --input:             #D6DDEB;
+  --ring:              #CCCCF5; 
+
+  /* States */
+  --destructive:       #FF6550;
+  --error:             #FF6550;
+  --error-foreground:  #FFFFFF;
+
+  /* Charts */
+  --chart-1:           #4640DE;
+  --chart-2:           #26A4FF;
+  --chart-3:           #56CDAD;
+  --chart-4:           #FFB836;
+  --chart-5:           #FF6550;
+
+  /* Sidebar */
+  --sidebar:                      #FFFFFF;
+  --sidebar-foreground:           #25324B;
+  --sidebar-primary:              #4640DE;
+  --sidebar-primary-foreground:   #FFFFFF;
+  --sidebar-accent:               #F8F8FD;
+  --sidebar-accent-foreground:    #25324B;
+  --sidebar-border:               #D6DDEB;
+  --sidebar-ring:                 #CCCCF5;
+}
+
+/* ===== Dark Theme ===== */
+.dark {
+  --radius: 0.5rem;
+  --background:        #0D1117;
+  --foreground:        #E8EDF2;
+
+  --primary:           #FD6D3F;
+  --primary-foreground:#FFFFFF;
+  --accent:            #26A4FF;
+  --accent-foreground: #FFFFFF;
+
+  --secondary:         #666C79;
+  --secondary-foreground: #FFFFFF;
+
+  --muted:             #161B22;
+  --muted-foreground:  #515B6F;
+
+  --card:              #161B22;
+  --card-foreground:   #E8EDF2;
+  --popover:           #161B22;
+  --popover-foreground:#E8EDF2;
+
+  --border:            #30363D;
+  --input:             #21262D;
+  --ring:              #4640DE;
+
+  --destructive:       #FF6550;
+  --error:             #FF6550;
+  --error-foreground:  #FFFFFF;
+
+  --chart-1:           #4640DE;
+  --chart-2:           #26A4FF;
+  --chart-3:           #56CDAD;
+  --chart-4:           #FFB836;
+  --chart-5:           #FF6550;
+
+  --sidebar:                      #0D1117;
+  --sidebar-foreground:           #E8EDF2;
+  --sidebar-primary:              #4640DE;
+  --sidebar-primary-foreground:   #FFFFFF;
+  --sidebar-accent:               #161B22;
+  --sidebar-accent-foreground:    #E8EDF2;
+  --sidebar-border:               #30363D;
+  --sidebar-ring:                 #4640DE;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 100vh; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
+
+/* ===== Utilities ===== */
+@layer utilities {
+
+  /* Layout */
+  .border-border { border-color: var(--border); }
+  .text-balance  { text-wrap: balance; }
+
+  /* Scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  .scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+    &::-webkit-scrollbar       { width: 4px; height: 4px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: var(--border); border-radius: 100vh; }
+    &::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+  }
+
+  /* Glass */
+  .glass {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .dark .glass {
+    background: rgba(22, 27, 34, 0.6);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Transitions */
+  .transition-smooth { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+}
+
+/* ===== Animations ===== */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in  { animation: fade-in  0.3s ease-out; }
+.animate-slide-up { animation: slide-up 0.4s ease-out; }
+.animate-slide-down { animation: slide-down 0.4s ease-out; }
+
+/* OTP Input */
+[data-slot="input-otp-slot"] {
+  border: 2px solid var(--border);
+  transition: border-color 0.2s ease;
+}
+[data-slot="input-otp-slot"]:focus-within {
+  border-color: var(--primary);
+}
