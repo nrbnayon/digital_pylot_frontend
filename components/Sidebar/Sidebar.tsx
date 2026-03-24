@@ -27,7 +27,7 @@ interface DashboardWrapperProps {
 export default function DashboardWrapper({ children }: DashboardWrapperProps) {
   const pathname = usePathname();
   // Use centralized user hook
-  const { name, role, isAuthenticated, logout } = useUser();
+  const { name, role, permissions, hasPermission, isAuthenticated, logout } = useUser();
 
   // State management
   const [open, setOpen] = useState(true);
@@ -44,15 +44,15 @@ export default function DashboardWrapper({ children }: DashboardWrapperProps) {
   const minWidth = 80;
   const maxWidth = 400;
 
-  // Filter links based on user role
+  // Filter links based on user permissions
   const filteredLinks = useMemo(() => {
     return sidebarLinks.filter((link) => {
-      // If no roles defined, everyone sees it
-      if (!link.roles || link.roles.length === 0) return true;
-      // If user has a role, check if it's allowed
-      return role ? link.roles.includes(role) : false;
+      // If no permission defined, everyone sees it
+      if (!link.permission) return true;
+      // Admin sees everything via hasPermission logic, or user needs the right atom
+      return hasPermission(link.permission);
     });
-  }, [role]);
+  }, [hasPermission]);
 
   // Check if current path matches link
   const isLinkActive = useCallback(
@@ -295,7 +295,7 @@ export default function DashboardWrapper({ children }: DashboardWrapperProps) {
 
                   const filteredSubLinks = link.subLinks?.filter(
                     (subLink) =>
-                      !subLink.roles || (role && subLink.roles.includes(role))
+                      !subLink.permission || hasPermission(subLink.permission)
                   );
 
                   const shouldShowSublinks =

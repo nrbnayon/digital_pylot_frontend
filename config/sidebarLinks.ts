@@ -16,7 +16,7 @@ import {
 export interface SidebarSubLink {
 	label: string;
 	href: string;
-	roles?: string[];
+	permission?: string;
 }
 
 export interface SidebarLink {
@@ -24,7 +24,7 @@ export interface SidebarLink {
 	href: string;
 	icon: React.ElementType | React.ReactElement | IconSvgElement;
 	subLinks?: SidebarSubLink[];
-	roles?: string[];
+	permission?: string;
 }
 
 export const sidebarLinks: SidebarLink[] = [
@@ -32,48 +32,48 @@ export const sidebarLinks: SidebarLink[] = [
 		label: "Dashboard",
 		href: "/admin/dashboard",
 		icon: DashboardSquare02Icon,
-		roles: ["admin"],
+		permission: "view_dashboard", // Anyone with view_dashboard atom
 	},
 	{
 		label: "Job Management",
 		href: "/admin/jobs",
 		icon: PackageAddIcon,
-		roles: ["admin"],
+		permission: "manage_jobs",
 	},
 	{
 		label: "Applications",
 		href: "/admin/applications",
 		icon: FileText,
-		roles: ["admin"],
+		permission: "view_applications",
 	},
 	{
 		label: "Categories",
 		href: "/admin/categories",
 		icon: List,
-		roles: ["admin"],
+		permission: "manage_categories",
 	},
 	{
 		label: "User Management",
 		href: "/admin/users",
 		icon: UserMultiple03Icon,
-		roles: ["admin"],
+		permission: "manage_users",
 	},
 	{
 		label: "Privacy & policy",
 		href: "/admin/privacy-policy",
 		icon: ShieldCheck,
-		roles: ["admin"],
+		permission: "manage_settings",
 	},
 	{
 		label: "Notifications",
 		href: "/admin/notifications",
 		icon: Bell,
-		roles: ["admin"],
+		permission: "view_notifications",
 	},
 	{
 		label: "Settings",
 		href: "/admin/settings",
 		icon: Settings01Icon,
-		roles: ["admin"],
+		permission: "manage_settings",
 	},
 ];

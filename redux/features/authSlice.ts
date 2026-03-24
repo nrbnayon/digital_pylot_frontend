@@ -7,6 +7,7 @@ export interface User {
   email: string;
   role: string | "admin" | "user"; // Enhanced type safety
   image?: string;
+  permissions?: string[];
 }
 
 interface AuthState {
