@@ -38,6 +38,12 @@ export const sidebarLinks: SidebarLink[] = [
 		permission: "view_dashboard", // Anyone with view_dashboard atom
 	},
 	{
+		label: "User Management",
+		href: "/admin/users",
+		icon: UserMultiple03Icon,
+		permission: "manage_users",
+	},
+	{
 		label: "Job Management",
 		href: "/admin/jobs",
 		icon: PackageAddIcon,
@@ -79,12 +85,7 @@ export const sidebarLinks: SidebarLink[] = [
 		icon: List,
 		permission: "manage_categories",
 	},
-	{
-		label: "User Management",
-		href: "/admin/users",
-		icon: UserMultiple03Icon,
-		permission: "manage_users",
-	},
+	
 	{
 		label: "Privacy & policy",
 		href: "/admin/privacy-policy",
