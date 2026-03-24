@@ -98,9 +98,20 @@ export const sidebarLinks: SidebarLink[] = [
 		permission: "view_notifications",
 	},
 	{
+		label: "My Applications",
+		href: "/admin/applications",
+		icon: ListChecks,
+		// No permission required, visible to all users
+	},
+	{
+		label: "Support Center",
+		href: "/admin/support",
+		icon: Bell,
+	},
+	{
 		label: "Settings",
 		href: "/admin/settings",
 		icon: Settings01Icon,
-		permission: "manage_settings",
+		permission: "customer",
 	},
 ];

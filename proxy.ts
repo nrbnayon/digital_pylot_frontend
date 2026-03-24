@@ -37,10 +37,11 @@ const PUBLIC_ONLY_ROUTES: string[] = ["/success", "/jobs"];
 const INFO_ROUTES: string[] = ["/privacy-policy", "/terms", "/about-us"];
 
 // Map of page prefixes to required permission atoms
+// Map of page prefixes to required permission atoms
+// Important: Place more specific routes BEFORE general prefixes like "/admin" 
+// to ensure correct matching, or use longest-prefix matching.
 const PERMISSION_ROUTES: Record<string, string> = {
-  "/user/dashboard": "view_dashboard",
-  "/admin": "view_dashboard",
-  "/admin/dashboard": "view_dashboard",
+  "/admin/dashboard": "",
   "/admin/jobs": "manage_jobs",
   "/admin/applications": "view_applications",
   "/admin/leads": "view_leads",
@@ -52,8 +53,10 @@ const PERMISSION_ROUTES: Record<string, string> = {
   "/admin/settings": "manage_settings",
   "/admin/privacy-policy": "manage_settings",
   "/admin/notifications": "view_notifications",
-  // Customer portal
-  "/customer/portal": "view_customer_portal"
+  "/user/dashboard": "",
+  "/customer/portal": "view_customer_portal",
+  // Base admin catch-all (least specific)
+  "/admin": "view_dashboard",
 };
 
 // ============================================================================
@@ -65,12 +68,14 @@ function matchesRoute(pathname: string, routes: string[]): boolean {
 }
 
 function getRequiredPermission(pathname: string): string | null {
-  for (const [route, atom] of Object.entries(PERMISSION_ROUTES)) {
-    if (pathname === route || pathname.startsWith(route + "/")) {
-      return atom;
-    }
-  }
-  return null;
+  // Find all matches
+  const matches = Object.entries(PERMISSION_ROUTES)
+    .filter(([route]) => pathname === route || pathname.startsWith(route + "/"));
+  
+  if (matches.length === 0) return null;
+
+  // Return the atom for the longest (most specific) matching route
+  return matches.reduce((prev, curr) => (curr[0].length > prev[0].length ? curr : prev))[1];
 }
 
 function applySecurityHeaders(res: NextResponse): NextResponse {
@@ -151,8 +156,9 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   // We'll require atoms via route map.
   const requiredAtom = getRequiredPermission(pathname);
   
-  if (requiredAtom) {
-    if (role === 'admin' || userPermissions.includes(requiredAtom)) {
+  if (requiredAtom !== null) {
+    // If atom is empty string, it just means authentication is required (already checked)
+    if (requiredAtom === "" || role === 'admin' || userPermissions.includes(requiredAtom)) {
       return allow();
     } else {
       console.warn(`[proxy] 🚫 Access denied | user lacks atom="{"role":"${role}","userPermissions":"${userPermissions}","pathname":"${pathname}","requiredAtom":"${requiredAtom}"}"`);

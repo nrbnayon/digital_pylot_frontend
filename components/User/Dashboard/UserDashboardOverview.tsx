@@ -114,7 +114,75 @@ export default function UserDashboardOverview() {
   const grantedSections = SECTION_CARDS.filter((item) => hasPermission(item.atom));
 
   if (isLoading) {
-    return <div className="p-8 flex items-center justify-center h-full">Loading dashboard context...</div>;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen w-full bg-[#f8f9fc] dark:bg-[#0a0c10] overflow-hidden">
+        {/* Animated Background Orbs */}
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[80px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1s' }} />
+
+        <div className="relative z-10 flex flex-col items-center gap-8">
+          {/* Main Loading Logo / Spinner */}
+          <div className="relative group">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              className="w-24 h-24 rounded-full border-t-2 border-r-2 border-primary shadow-[0_0_15px_rgba(70,64,222,0.3)]"
+            />
+            <div className="absolute inset-2 rounded-full border-b-2 border-l-2 border-primary/30" />
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: [0.8, 1.1, 0.8] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/30 rotate-12 transition-transform group-hover:rotate-0">
+                <LayoutDashboard className="w-5 h-5 text-white" />
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Text Elements */}
+          <div className="text-center space-y-2">
+            <motion.h2 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-2xl font-clash font-bold text-[#1F232A] dark:text-white tracking-tight"
+            >
+              Preparing Your Workspace
+            </motion.h2>
+            <motion.div 
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               transition={{ delay: 0.4 }}
+               className="flex items-center justify-center gap-2"
+            >
+              <div className="flex gap-1">
+                {[0, 1, 2].map((i) => (
+                  <motion.div
+                    key={i}
+                    animate={{ opacity: [0.3, 1, 0.3], scale: [1, 1.2, 1] }}
+                    transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
+                    className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_8px_rgba(70,64,222,0.5)]"
+                  />
+                ))}
+              </div>
+              <p className="text-[#7C8493] dark:text-[#94A3B8] font-onest text-sm font-medium">
+                Syncing permissions & context...
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Glass Card Backdrop */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 }}
+            className="absolute -inset-10 bg-white/40 dark:bg-card/20 backdrop-blur-xl rounded-[4rem] -z-10 shadow-2xl border border-white/20 dark:border-white/5"
+          />
+        </div>
+      </div>
+    );
   }
 
   return (

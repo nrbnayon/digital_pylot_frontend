@@ -228,24 +228,45 @@ export default function DashboardWrapper({ children }: DashboardWrapperProps) {
   }, []);
 
   const getRoleBadgeColor = (role: string) => {
-    switch (role) {
+    const r = role?.toLowerCase();
+    switch (r) {
       case "admin":
-        return "text-primary";
+        return "text-primary font-bold";
+      case "manager":
+        return "text-blue-600 font-semibold";
+      case "agent":
+        return "text-green-600 font-semibold";
+      case "customer":
+        return "text-orange-600 font-semibold";
       case "user":
-        return "text-secondary";
+        return "text-secondary font-medium";
+      case "creator":
+        return "text-purple-600 font-semibold";
       default:
-        return "text-primary";
+        return "text-gray-500";
     }
   };
 
   const getRoleDisplayName = (role: string) => {
-    switch (role) {
+    if (!role) return "User";
+    
+    const r = role.toLowerCase();
+    switch (r) {
       case "admin":
-        return "Admin";
+        return "Administrator";
+      case "manager":
+        return "Manager";
+      case "agent":
+        return "Agent";
+      case "customer":
+        return "Customer";
       case "user":
-        return "User";
+        return "Standard User";
+      case "creator":
+        return "Creator";
       default:
-        return "Admin";
+        // Capitalize first letter
+        return role.charAt(0).toUpperCase() + role.slice(1);
     }
   };
 
@@ -466,7 +487,7 @@ export default function DashboardWrapper({ children }: DashboardWrapperProps) {
                       </p>
                       <p
                         className={cn(
-                          "text-sm truncate",
+                          "text-[13px] truncate uppercase tracking-tight",
                           getRoleBadgeColor(role || "customer")
                         )}
                       >
