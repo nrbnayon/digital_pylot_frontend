@@ -97,12 +97,12 @@ export const sidebarLinks: SidebarLink[] = [
 		icon: Bell,
 		permission: "view_notifications",
 	},
-	{
-		label: "Applications",
-		href: "/admin/applications",
-		icon: ListChecks,
-		// No permission required, visible to all users
-	},
+	// {
+	// 	label: "My Applications",
+	// 	href: "/admin/applications",
+	// 	icon: ListChecks,
+	// 	// No permission required, visible to all users
+	// },
 	{
 		label: "Support Center",
 		href: "/admin/support",
