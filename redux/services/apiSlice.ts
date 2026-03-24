@@ -6,7 +6,7 @@ import { logout, updateTokens } from '../features/authSlice';
 // Helper to clear cookies
 const clearAuthCookies = () => {
   if (typeof document === 'undefined') return;
-  const cookiesToClear = ["userRole", "userEmail", "userName", "userPermissions", "reset_verified"];
+  const cookiesToClear = ["refreshToken", "userRole", "userEmail", "userName", "userPermissions", "reset_verified"];
   cookiesToClear.forEach(name => {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   });

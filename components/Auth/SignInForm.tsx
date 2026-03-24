@@ -27,6 +27,14 @@ interface SignInFormProps {
   isAdmin?: boolean;
 }
 
+const setClientCookie = (name: string, value: string, maxAgeSeconds?: number) => {
+  if (typeof document === "undefined") return;
+
+  const secureFlag = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  const maxAgePart = typeof maxAgeSeconds === "number" ? `; Max-Age=${maxAgeSeconds}` : "";
+  document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; SameSite=Lax${secureFlag}${maxAgePart}`;
+};
+
 export const SignInForm = ({ isAdmin = false }: SignInFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
@@ -62,6 +70,16 @@ export const SignInForm = ({ isAdmin = false }: SignInFormProps) => {
 
     try {
       const response = await signin(cleanData).unwrap();
+
+      const maxAgeSeconds = cleanData.rememberMe ? 7 * 24 * 60 * 60 : undefined;
+      setClientCookie("userRole", response.role, maxAgeSeconds);
+      setClientCookie("userEmail", response.email, maxAgeSeconds);
+      setClientCookie("userName", response.name || "User", maxAgeSeconds);
+      setClientCookie("userPermissions", JSON.stringify(response.permissions || []), maxAgeSeconds);
+
+      if (response.refreshToken) {
+        setClientCookie("refreshToken", response.refreshToken, maxAgeSeconds);
+      }
 
       const userPayload = {
         name: response.name || "User",
