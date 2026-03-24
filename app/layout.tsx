@@ -56,16 +56,17 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
   ),
   title: {
-    default: `QuickHire – Discover more than 5000+ Jobs`,
-    template: "%s | QuickHire",
+    default: `Obliq – Discover more than 5000+ Jobs`,
+    template: "%s | Obliq",
   },
   description:
-    "QuickHire is the great platform for job seekers searching for new career heights and passionate about startups. Discover more than 5000+ jobs across Design, Technology, Engineering and more.",
+    "Obliq is the great platform for job seekers searching for new career heights and passionate about startups. Discover more than 5000+ jobs across Design, Technology, Engineering and more.",
   keywords: [
     "Admin Panel",
     "User Management",
     "career",
-    ""
+    "Obliq",
+    "Jobs",
   ],
   // PWA Configuration
   manifest: "/manifest.json",
@@ -96,10 +97,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    siteName: process.env.NEXT_PUBLIC_APP_NAME || "Your App",
-    title: `${process.env.NEXT_PUBLIC_APP_NAME || "Your App"} - Site Panel`,
+    siteName: process.env.NEXT_PUBLIC_APP_NAME || "Obliq",
+    title: `${process.env.NEXT_PUBLIC_APP_NAME || "Obliq"} - Site Panel`,
     description:
-      "QuickHire is the great platform for job seekers searching for new career heights and passionate about startups. Discover more than 5000+ jobs across Design, Technology, Engineering and more.",
+      "Obliq is the great platform for job seekers searching for new career heights and passionate about startups. Discover more than 5000+ jobs across Design, Technology, Engineering and more.",
     images: [
       {
         url: "/icons/logo.png",
@@ -111,9 +112,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${process.env.NEXT_PUBLIC_APP_NAME || "Your App"} - Site Panel`,
+    title: `${process.env.NEXT_PUBLIC_APP_NAME || "Obliq"} - Site Panel`,
     description:
-      "QuickHire is the great platform for job seekers searching for new career heights and passionate about startups. Discover more than 5000+ jobs across Design, Technology, Engineering and more.",
+      "Obliq is the great platform for job seekers searching for new career heights and passionate about startups. Discover more than 5000+ jobs across Design, Technology, Engineering and more.",
     images: ["/icons/logo.png"],
     creator: "@nrbnayon",
   },
@@ -140,11 +141,11 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: process.env.NEXT_PUBLIC_APP_NAME || "Your App",
+    name: process.env.NEXT_PUBLIC_APP_NAME || "Obliq",
     applicationCategory: "Dashboard Management System",
     operatingSystem: "Web",
     description:
-      "QuickHire is the great platform for job seekers searching for new career heights and passionate about startups. Discover more than 5000+ jobs across Design, Technology, Engineering and more.",
+      "Obliq is the great platform for job seekers searching for new career heights and passionate about startups. Discover more than 5000+ jobs across Design, Technology, Engineering and more.",
     offers: {
       "@type": "Offer",
       price: "0",

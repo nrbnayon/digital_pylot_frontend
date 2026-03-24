@@ -9,16 +9,22 @@ import { useUser } from "@/hooks/useUser";
 import LogoutModal from "@/components/Shared/LogoutModal";
 import Image from "next/image";
 
-function QuickHireLogo() {
+function ObliqLogo() {
   return (
-    <Link href="/" className="flex items-center gap-2.5">
-      <div className="w-8 h-8 bg-[#4640DE] rounded-full flex items-center justify-center shrink-0">
-        <Image src="/icons/logo.svg" alt="Logo" width={32} height={32} />
+    <div className="flex items-center gap-2 group cursor-pointer">
+      <div className="relative w-10 h-10 rounded-lg  transition-all duration-300 group-hover:rotate-12 flex items-center justify-center">
+        <Image
+          src="/icons/header.png"
+          alt="Obliq"
+          width={40}
+          height={40}
+          className="object-contain"
+        />
       </div>
-      <span className="font-semibold text-[22px] text-[#25324B] tracking-tight leading-none">
-        QuickHire
+      <span className="font-bold text-2xl tracking-tight text-foreground/90 group-hover:text-primary transition-colors">
+        Obliq
       </span>
-    </Link>
+    </div>
   );
 }
 
@@ -50,7 +56,7 @@ export default function PublicNavbar() {
         )}
       >
         <div className="max-w-[1240px] mx-auto px-5 sm:px-8 lg:px-0 h-[76px] flex items-center justify-between gap-8">
-          <QuickHireLogo />
+          <ObliqLogo />
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-2 h-full">

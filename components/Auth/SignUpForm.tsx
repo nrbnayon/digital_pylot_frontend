@@ -4,20 +4,19 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Eye, EyeOff, Loader2, User, Mail, Lock } from "lucide-react";
-import Image from "next/image";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { FloatingInput } from "@/components/ui/floating-input";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 import { toast } from "sonner";
 import { signupValidationSchema } from "@/lib/formDataValidation";
-import { LeftSideImage } from "./LeftSideImage";
 
 type FormValues = z.infer<typeof signupValidationSchema>;
 
@@ -53,9 +52,7 @@ export const SignUpForm = () => {
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      
       toast.success("Account created successfully! Please log in.");
       router.push("/signin");
     } catch (error) {
@@ -67,137 +64,179 @@ export const SignUpForm = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col lg:flex-row overflow-y-auto">
-      <LeftSideImage image="/icons/signup.png" />
-      
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        className="flex-1 flex items-center justify-center p-6 sm:p-8 lg:p-12 bg-white"
-      >
-        <div className="w-full max-w-md lg:max-w-lg space-y-8 my-8">
-          <div className="text-center space-y-3">
-            <div className="flex justify-center mb-6">
-              <Image
-                src="/icons/logo.svg"
-                alt="Logo"
-                width={140}
-                height={140}
-                className="w-28 sm:w-36 h-auto"
-                priority
-              />
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-semibold text-foreground">Create Account</h1>
-            <p className="text-lg sm:text-xl text-secondary">
-              Join us today! Please fill in your details.
-            </p>
-          </div>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="w-full space-y-8"
+    >
+      {/* Title & Subtitle */}
+      <div className="text-center space-y-1">
+        <h1 className="text-4xl font-semibold tracking-tight text-[#1F232A]">
+          Create Account
+        </h1>
+        <p className="text-secondary font-onest text-lg">
+          Join us today! Please fill in your details
+        </p>
+      </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            <FloatingInput
-              label="Full Name"
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 pt-2">
+        <div className="space-y-4">
+          {/* Full Name */}
+          <div className="space-y-2">
+            <Label htmlFor="full_name" className="text-base font-medium text-[#1F232A]">
+              Full Name
+            </Label>
+            <Input
+              id="full_name"
+              placeholder="Enter your full name"
               type="text"
-              error={errors.full_name?.message}
-              className="h-14 rounded-full border-2 focus:border-primary focus:ring-0 px-6 text-base"
+              className={cn(
+                "h-14 rounded-2xl border-gray-200 focus:border-primary px-5 text-base",
+                errors.full_name && "border-destructive focus:border-destructive"
+              )}
               {...register("full_name")}
               onChange={handleTrimChange("full_name")}
             />
+            {errors.full_name?.message && (
+              <p className="text-sm text-destructive font-medium px-1">
+                {errors.full_name.message}
+              </p>
+            )}
+          </div>
 
-            <FloatingInput
-              label="Email"
+          {/* Email */}
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-base font-medium text-[#1F232A]">
+              Email
+            </Label>
+            <Input
+              id="email"
+              placeholder="example@email.com"
               type="email"
               autoComplete="email"
-              error={errors.email?.message}
-              className="h-14 rounded-full border-2 focus:border-primary focus:ring-0 px-6 text-base"
+              className={cn(
+                "h-14 rounded-2xl border-gray-200 focus:border-primary px-5 text-base",
+                errors.email && "border-destructive focus:border-destructive"
+              )}
               {...register("email")}
               onChange={handleTrimChange("email")}
             />
+            {errors.email?.message && (
+              <p className="text-sm text-destructive font-medium px-1">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
 
-            <FloatingInput
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              error={errors.password?.message}
-              className="h-14 rounded-full border-2 focus:border-primary focus:ring-0 px-6 pr-14 text-base"
-              {...register("password")}
-              onChange={handleTrimChange("password")}
-              suffix={
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  className="mr-5 text-gray-400 hover:text-primary transition-colors z-10 p-1"
-                >
-                  {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
-                </button>
-              }
-            />
-
-            <FloatingInput
-              label="Confirm Password"
-              type={showConfirmPassword ? "text" : "password"}
-              error={errors.confirmPassword?.message}
-              className="h-14 rounded-full border-2 focus:border-primary focus:ring-0 px-6 pr-14 text-base"
-              {...register("confirmPassword")}
-              onChange={handleTrimChange("confirmPassword")}
-              suffix={
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword((prev) => !prev)}
-                  className="mr-5 text-gray-400 hover:text-primary transition-colors z-10 p-1"
-                >
-                  {showConfirmPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
-                </button>
-              }
-            />
-
-            <Controller
-              name="agreeToTerms"
-              control={control}
-              render={({ field }) => (
-                <div className="space-y-1">
-                  <div className="flex items-center gap-3">
-                    <Checkbox
-                      id="agreeToTerms"
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      className="h-5 w-5 border-2 data-[state=checked]:bg-primary rounded"
-                    />
-                    <Label htmlFor="agreeToTerms" className="text-sm sm:text-base text-secondary cursor-pointer font-normal">
-                      I agree to the <Link href="/terms" className="text-primary hover:underline">Terms & Conditions</Link> and <Link href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link>
-                    </Label>
-                  </div>
-                  {errors.agreeToTerms && <p className="text-red-500 text-xs px-1">{errors.agreeToTerms.message}</p>}
-                </div>
-              )}
-            />
-
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full h-14 bg-primary hover:bg-primary/90 text-white text-lg font-semibold rounded-full shadow-md transition-all duration-200"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-3 h-5 w-5 animate-spin" />
-                  Creating account...
-                </>
-              ) : (
-                "Sign Up"
-              )}
-            </Button>
-
-            <div className="text-center text-sm sm:text-base">
-              <span className="text-secondary">Already have an account? </span>
-              <Link
-                href="/signin"
-                className="text-primary font-semibold hover:text-primary/80 hover:underline transition-colors"
+          {/* Password */}
+          <div className="space-y-2">
+            <Label htmlFor="password" className="text-base font-medium text-[#1F232A]">
+              Password
+            </Label>
+            <div className="relative">
+              <Input
+                id="password"
+                placeholder="Create password"
+                type={showPassword ? "text" : "password"}
+                className={cn(
+                  "h-14 rounded-2xl border-gray-200 focus:border-primary px-5 pr-14 text-base",
+                  errors.password && "border-destructive focus:border-destructive"
+                )}
+                {...register("password")}
+                onChange={handleTrimChange("password")}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-5 inset-y-0 text-gray-400 hover:text-primary transition-colors flex items-center justify-center"
               >
-                Log In
-              </Link>
+                {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
+              </button>
             </div>
-          </form>
+            {errors.password?.message && (
+              <p className="text-sm text-destructive font-medium px-1">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+
+          {/* Confirm Password */}
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword" className="text-base font-medium text-[#1F232A]">
+              Confirm Password
+            </Label>
+            <div className="relative">
+              <Input
+                id="confirmPassword"
+                placeholder="Confirm your password"
+                type={showConfirmPassword ? "text" : "password"}
+                className={cn(
+                  "h-14 rounded-2xl border-gray-200 focus:border-primary px-5 pr-14 text-base",
+                  errors.confirmPassword && "border-destructive focus:border-destructive"
+                )}
+                {...register("confirmPassword")}
+                onChange={handleTrimChange("confirmPassword")}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+                className="absolute right-5 inset-y-0 text-gray-400 hover:text-primary transition-colors flex items-center justify-center"
+              >
+                {showConfirmPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
+              </button>
+            </div>
+            {errors.confirmPassword?.message && (
+              <p className="text-sm text-destructive font-medium px-1">
+                {errors.confirmPassword.message}
+              </p>
+            )}
+          </div>
         </div>
-      </motion.div>
-    </div>
+
+        <Controller
+          name="agreeToTerms"
+          control={control}
+          render={({ field }) => (
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  id="agreeToTerms"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  className="rounded-md border-gray-300 data-[state=checked]:bg-primary"
+                />
+                <Label htmlFor="agreeToTerms" className="text-base text-[#1F232A] cursor-pointer font-normal">
+                  I agree to the <Link href="/terms" className="text-primary hover:underline">Terms</Link> and <Link href="/privacy-policy" className="text-primary hover:underline">Privacy</Link>
+                </Label>
+              </div>
+              {errors.agreeToTerms && <p className="text-destructive text-sm font-medium px-1">{errors.agreeToTerms.message}</p>}
+            </div>
+          )}
+        />
+
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className="w-full h-14 bg-primary hover:bg-primary/90 text-white text-lg font-semibold rounded-2xl shadow-lg shadow-primary/20"
+        >
+          {isLoading ? (
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            "Create Account"
+          )}
+        </Button>
+
+        <div className="text-center pt-2">
+          <span className="text-secondary font-onest text-lg">Already have an account? </span>
+          <Link
+            href="/signin"
+            className="text-primary font-bold font-onest text-lg hover:underline ml-1"
+          >
+            Log In
+          </Link>
+        </div>
+      </form>
+    </motion.div>
   );
 };

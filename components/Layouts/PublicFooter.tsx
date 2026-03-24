@@ -16,7 +16,7 @@ export default function PublicFooter() {
               <div className="w-8 h-8 bg-[#4640DE] rounded-full flex items-center justify-center shrink-0">
                 <Image src="/icons/logo.svg" alt="Logo" width={32} height={32} />
               </div>
-              <span className="font-semibold text-[22px] text-white tracking-tight">QuickHire</span>
+              <span className="font-semibold text-[22px] text-white tracking-tight">Obliq</span>
             </Link>
             <p className="text-[15px] text-white/50 leading-relaxed">
               Great platform for the job seeker that searching for new career heights and passionate about startups.
@@ -90,7 +90,7 @@ export default function PublicFooter() {
         {/* Bottom Bar */}
         <div className="mt-14 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[14px] text-white/50">
-            {currentYear} @ QuickHire. All rights reserved.
+            {currentYear} @ Obliq. All rights reserved.
           </p>
           <div className="flex items-center gap-6 flex-wrap justify-center">
             <Link href="#" className="text-[14px] text-white/50 hover:text-white transition-colors">Privacy Policy</Link>

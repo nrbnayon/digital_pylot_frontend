@@ -5,14 +5,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
-import { FloatingInput } from "@/components/ui/floating-input";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { LeftSideImage } from "./LeftSideImage";
 
 const resetPasswordSchema = z
   .object({
@@ -49,7 +49,6 @@ const ResetPassword = () => {
   });
 
   useEffect(() => {
-    // Check if user came from verified OTP (optional security, can be disabled for testing)
     const isVerified = document.cookie.split("; ").find(row => row.startsWith("reset_verified="));
     if (!isVerified && process.env.NODE_ENV === "production") {
       toast.error("Unauthorized access. Please verify OTP first.");
@@ -65,15 +64,9 @@ const ResetPassword = () => {
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
     try {
-      // Simulation
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log("Password Reset Data:", data);
-      
       toast.success("Password reset successfully! Please signin.");
-      
-      // Clear the verification cookie
       document.cookie = "reset_verified=; path=/; max-age=0; SameSite=Strict";
-      
       router.push("/signin"); 
     } catch (error) {
       console.error("Reset failed:", error);
@@ -84,98 +77,101 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="relative h-screen w-full flex flex-col lg:flex-row">
-      
-      {/* Left - Image (hidden on mobile) */}
-      <LeftSideImage image="/icons/reset-pass.svg" />
-      
-      {/* Right - Form */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        className="flex-1 flex items-center justify-center p-6 sm:p-8 lg:p-12 bg-white lg:min-h-screen"
-      >
-        <div className="w-full max-w-md lg:max-w-lg space-y-8">
-          {/* Logo + Title */}
-          <div className="text-center space-y-3">
-            <div className="flex justify-center mb-6 md:mb-8">
-              <Image
-                src="/icons/logo.svg"
-                alt="  Logo"
-                width={140}
-                height={140}
-                className="w-28 sm:w-36 h-auto"
-                priority
-              />
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-semibold text-foreground">Reset password</h1>
-            <p className="text-base sm:text-lg text-secondary">
-              Please reset your password
-            </p>
-          </div>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="w-full space-y-8"
+    >
+      <div className="text-center space-y-1">
+        <h1 className="text-4xl font-semibold tracking-tight text-[#1F232A]">
+          Reset password
+        </h1>
+        <p className="text-secondary font-onest text-lg">
+          Please reset your password
+        </p>
+      </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Password */}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pt-4">
+        <div className="space-y-4">
+          {/* New Password */}
+          <div className="space-y-2">
+            <Label htmlFor="newPassword" className="text-base font-medium text-[#1F232A]">
+              New Password
+            </Label>
             <div className="relative">
-              <FloatingInput
-                label="Password"
+              <Input
+                id="newPassword"
+                placeholder="Enter new password"
                 type={showPassword ? "text" : "password"}
-                error={errors.newPassword?.message}
-                labelClassName="text-secondary"
-                className="h-14 rounded-full border-2 focus:border-primary focus:ring-0 px-6 pr-14 text-base"
+                className={cn(
+                  "h-14 rounded-2xl border-gray-200 focus:border-primary px-5 pr-14 text-base",
+                  errors.newPassword && "border-destructive focus:border-destructive"
+                )}
                 {...register("newPassword")}
                 onChange={handleTrimChange("newPassword")}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors z-10 p-1"
+                className="absolute right-5 inset-y-0 text-gray-400 hover:text-primary transition-colors flex items-center justify-center p-1"
               >
                 {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
               </button>
             </div>
+            {errors.newPassword?.message && (
+              <p className="text-sm text-destructive font-medium px-1">
+                {errors.newPassword.message}
+              </p>
+            )}
+          </div>
 
-            {/* Rewrite Password */}
+          {/* Confirm Password */}
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword" className="text-base font-medium text-[#1F232A]">
+              Confirm Password
+            </Label>
             <div className="relative">
-              <FloatingInput
-                label="Rewrite Password"
+              <Input
+                id="confirmPassword"
+                placeholder="Confirm your password"
                 type={showConfirmPassword ? "text" : "password"}
-                error={errors.confirmPassword?.message}
-                labelClassName="text-secondary"
-                className="h-14 rounded-full border-2 focus:border-primary focus:ring-0 px-6 pr-14 text-base"
+                className={cn(
+                  "h-14 rounded-2xl border-gray-200 focus:border-primary px-5 pr-14 text-base",
+                  errors.confirmPassword && "border-destructive focus:border-destructive"
+                )}
                 {...register("confirmPassword")}
                 onChange={handleTrimChange("confirmPassword")}
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
-                className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors z-10 p-1"
+                className="absolute right-5 inset-y-0 text-gray-400 hover:text-primary transition-colors flex items-center justify-center p-1"
               >
                 {showConfirmPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
               </button>
             </div>
-
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full h-14 bg-primary hover:bg-primary/90 text-white text-lg font-semibold rounded-full shadow-md transition-all duration-200"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-3 h-5 w-5 animate-spin" />
-                  Updating...
-                </>
-              ) : (
-                "Continue"
-              )}
-            </Button>
-          </form>
+            {errors.confirmPassword?.message && (
+              <p className="text-sm text-destructive font-medium px-1">
+                {errors.confirmPassword.message}
+              </p>
+            )}
+          </div>
         </div>
-      </motion.div>
 
-    </div>
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className="w-full h-14 bg-primary hover:bg-primary/90 text-white text-lg font-semibold rounded-2xl shadow-lg shadow-primary/20"
+        >
+          {isLoading ? (
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            "Continue"
+          )}
+        </Button>
+      </form>
+    </motion.div>
   );
 };
 

@@ -5,15 +5,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
-import { FloatingInput } from "@/components/ui/floating-input";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { emailValidationSchema } from "@/lib/formDataValidation";
-import { LeftSideImage } from "./LeftSideImage";
 
 type FormValues = z.infer<typeof emailValidationSchema>;
 
@@ -34,7 +34,6 @@ const ForgetPassword = () => {
     },
   });
 
-  // Simple countdown effect
   useEffect(() => {
     if (countdown > 0) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
@@ -50,10 +49,7 @@ const ForgetPassword = () => {
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
     try {
-      // Simulation
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log("Email for reset:", data.email);
-      
       toast.success("OTP sent to your email.");
       router.push(`/verify-otp?flow=reset&email=${encodeURIComponent(data.email)}`); 
     } catch (error) {
@@ -71,83 +67,70 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className="relative h-screen w-full flex flex-col lg:flex-row">
-     
-      {/* Left - Image (hidden on mobile) */}
-      <LeftSideImage image="/icons/forgot-pass.svg" />
-     
-      {/* Right - Form */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        className="flex-1 flex items-center justify-center p-6 sm:p-8 lg:p-12 bg-white lg:min-h-screen"
-      >
-        <div className="w-full max-w-md lg:max-w-lg space-y-8">
-          {/* Logo + Title */}
-          <div className="text-center space-y-3">
-            <div className="flex justify-center mb-6 md:mb-8">
-              <Image
-                src="/icons/logo.svg"
-                alt="  Logo"
-                width={140}
-                height={140}
-                className="w-28 sm:w-36 h-auto"
-                priority
-              />
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-semibold text-foreground">Reset password</h1>
-            <p className="text-base sm:text-lg text-secondary">
-              To reset password enter your email
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="w-full space-y-8"
+    >
+      <div className="text-center space-y-1">
+        <h1 className="text-4xl font-semibold tracking-tight text-[#1F232A]">
+          Reset password
+        </h1>
+        <p className="text-secondary font-onest text-lg">
+          To reset password enter your email
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pt-4">
+        <div className="space-y-2">
+          <Label htmlFor="email" className="text-base font-medium text-[#1F232A]">
+            Email
+          </Label>
+          <Input
+            id="email"
+            placeholder="example@email.com"
+            type="email"
+            autoComplete="email"
+            className={cn(
+              "h-14 rounded-2xl border-gray-200 focus:border-primary px-5 text-base",
+              errors.email && "border-destructive focus:border-destructive"
+            )}
+            {...register("email")}
+            onChange={handleTrimChange("email")}
+          />
+          {errors.email?.message && (
+            <p className="text-sm text-destructive font-medium px-1">
+              {errors.email.message}
             </p>
-          </div>
-
-          {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <FloatingInput
-              label="Email"
-              type="email"
-              autoComplete="email"
-              error={errors.email?.message}
-              labelClassName="text-secondary"
-              className="h-14 rounded-full border-2 focus:border-primary focus:ring-0 px-6 text-base"
-              {...register("email")}
-              onChange={handleTrimChange("email")}
-            />
-
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full h-14 bg-primary hover:bg-primary/90 text-white text-lg font-semibold rounded-full shadow-md transition-all duration-200"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-3 h-5 w-5 animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                "Continue"
-              )}
-            </Button>
-
-            {/* Resend Link */}
-            <div className="text-center text-sm sm:text-base">
-              <span className="text-secondary">Didn&apos;t get the email? </span>
-              <button
-                type="button"
-                onClick={() => setCountdown(60)}
-                disabled={countdown > 0}
-                className="text-primary font-semibold hover:text-primary/80 hover:underline transition-colors disabled:opacity-70 disabled:no-underline"
-              >
-                {countdown > 0 ? `Resent in ${formatTime(countdown)}` : "Resend"}
-              </button>
-            </div>
-          </form>
+          )}
         </div>
-      </motion.div>
 
-     
-    </div>
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className="w-full h-14 bg-primary hover:bg-primary/90 text-white text-lg font-semibold rounded-2xl shadow-lg shadow-primary/20"
+        >
+          {isLoading ? (
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            "Continue"
+          )}
+        </Button>
+
+        <div className="text-center pt-2">
+          <span className="text-secondary font-onest text-lg">Didn&apos;t get the email? </span>
+          <button
+            type="button"
+            onClick={() => setCountdown(60)}
+            disabled={countdown > 0}
+            className="text-primary font-bold font-onest text-lg hover:underline disabled:opacity-70 disabled:no-underline ml-1"
+          >
+            {countdown > 0 ? `Resent in ${formatTime(countdown)}` : "Resend"}
+          </button>
+        </div>
+      </form>
+    </motion.div>
   );
 };
 

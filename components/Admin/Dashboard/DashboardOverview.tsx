@@ -68,7 +68,7 @@ export default function DashboardOverview() {
     <div className="flex flex-col flex-1 h-full bg-[#F5F6FA] dark:bg-background overflow-y-auto">
       <DashboardHeader 
         title="Admin Dashboard" 
-        description="Welcome back! Here's a summary of QuickHire's performance."
+        description="Welcome back! Here's a summary of Obliq's performance."
       />
 
       <main className="p-5 md:p-8 space-y-8">
