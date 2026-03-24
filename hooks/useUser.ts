@@ -87,7 +87,8 @@ export function useUser() {
             return;
           }
 
-          dispatch(updateTokens({ token: accessToken }));
+          dispatch(updateTokens({ accessToken }));
+
 
           const meRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/auth/me`, {
             method: 'GET',
@@ -106,9 +107,10 @@ export function useUser() {
                   avatar: me?.avatar || null,
                   permissions: me?.permissions || p,
                 },
-                token: accessToken,
+                accessToken,
               }),
             );
+
           } else {
             dispatch(
               setCredentials({
@@ -119,7 +121,7 @@ export function useUser() {
                   avatar: null,
                   permissions: p,
                 },
-                token: accessToken,
+                accessToken,
               }),
             );
           }
@@ -175,7 +177,7 @@ export function useUser() {
     hasPermission,
     // We don't necessarily store the token string in the public `user` object in Redux if we want to be minimal,
     // but authSlice has it.
-    accessToken: useAppSelector((state) => state.auth.token),
+    accessToken: useAppSelector((state) => state.auth.accessToken),
     isAuthenticated,
     isLoading: isChecking,
     hasRole,

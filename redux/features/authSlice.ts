@@ -12,15 +12,21 @@ export interface User {
 
 interface AuthState {
   user: User | null;
-  token: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
 }
 
+
+
 const initialState: AuthState = {
   user: null,
-  token: null,
+  accessToken: null,
+  refreshToken: null,
   isAuthenticated: false,
 };
+
+
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -28,19 +34,22 @@ export const authSlice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      action: PayloadAction<{ user: User; token: string }>
+      action: PayloadAction<{ user: User; accessToken: string; refreshToken?: string }>
     ) => {
       state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken || null;
       state.isAuthenticated = true;
     },
     logout: (state) => {
       state.user = null;
-      state.token = null;
+      state.accessToken = null;
+      state.refreshToken = null;
       state.isAuthenticated = false;
     },
-    updateTokens: (state, action: PayloadAction<{ token: string, tokenExpiresAt?: number }>) => {
-      state.token = action.payload.token;
+
+    updateTokens: (state, action: PayloadAction<{ accessToken: string, tokenExpiresAt?: number }>) => {
+      state.accessToken = action.payload.accessToken;
     }
   },
 });
@@ -51,5 +60,6 @@ export default authSlice.reducer;
 
 // Selectors
 export const selectCurrentUser = (state: RootState) => state.auth.user;
-export const selectCurrentToken = (state: RootState) => state.auth.token;
+export const selectCurrentToken = (state: RootState) => state.auth.accessToken;
+
 export const selectIsAuthenticated = (state: RootState) => state.auth.isAuthenticated;

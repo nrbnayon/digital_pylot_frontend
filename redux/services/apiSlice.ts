@@ -27,11 +27,12 @@ const baseQuery = fetchBaseQuery({
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const state = getState() as RootState;
-    const token = state.auth.token;
+    const accessToken = state.auth.accessToken;
 
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
+    if (accessToken) {
+      headers.set("Authorization", `Bearer ${accessToken}`);
     }
+
     // Don't override Content-Type for FormData (browser sets it with boundary)
     if (!headers.get("Content-Type")) {
       headers.set("Content-Type", "application/json");
@@ -64,7 +65,8 @@ const baseQueryWithReauth: typeof baseQuery = async (
       const newAccessToken = responseData.access_token;
 
       if (newAccessToken) {
-        api.dispatch(updateTokens({ token: newAccessToken, tokenExpiresAt: responseData.expires_at }));
+        api.dispatch(updateTokens({ accessToken: newAccessToken, tokenExpiresAt: responseData.expires_at }));
+
 
         result = await baseQuery(args, api, extraOptions);
       } else {

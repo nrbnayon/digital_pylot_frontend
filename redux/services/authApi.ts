@@ -13,7 +13,9 @@ interface SigninResponse {
   role: string | "admin" | "manager" | "agent" | "customer" | "user";
   permissions: string[];
   accessToken: string;
+  refreshToken: string;
 }
+
 
 interface SignupRequest {
   name: string;

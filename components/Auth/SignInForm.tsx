@@ -74,9 +74,11 @@ export const SignInForm = ({ isAdmin = false }: SignInFormProps) => {
       dispatch(
         setCredentials({
           user: userPayload,
-          token: response.accessToken, // use renamed field
+          accessToken: response.accessToken, 
+          refreshToken: response.refreshToken,
         })
       );
+
 
       toast.success("Logged in successfully!");
 
