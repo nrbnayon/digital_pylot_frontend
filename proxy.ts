@@ -116,13 +116,15 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
 
   // Get permissions from cookie (set by our frontend login handler)
   const permissionsStr = request.cookies.get(COOKIES.USER_PERMISSIONS)?.value;
-  const role = request.cookies.get(COOKIES.USER_ROLE)?.value;
+  const rawRole = request.cookies.get(COOKIES.USER_ROLE)?.value || "";
+  const role = rawRole.toLowerCase();
+
   // refreshToken acts as our proof of session since accessToken is in memory
   const isAuthenticated = !!request.cookies.get(COOKIES.REFRESH_TOKEN) || !!request.cookies.get(COOKIES.ACCESS_TOKEN);
 
   if (matchesRoute(pathname, AUTH_ROUTES)) {
     if (isAuthenticated) {
-      if (role === 'Customer') return redirectTo('/customer/portal', request);
+      if (role === 'customer') return redirectTo('/customer/portal', request);
       return redirectTo('/admin/dashboard', request);
     }
     return allow();
@@ -138,12 +140,12 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     userPermissions = permissionsStr ? JSON.parse(permissionsStr) : [];
   } catch(e) {}
 
-  // "Admin" has all permissions implicitly or they are explicitly set.
+  // "admin" has all permissions implicitly.
   // We'll require atoms via route map.
   const requiredAtom = getRequiredPermission(pathname);
   
   if (requiredAtom) {
-    if (role === 'Admin' || userPermissions.includes(requiredAtom)) {
+    if (role === 'admin' || userPermissions.includes(requiredAtom)) {
       return allow();
     } else {
       console.warn(`[proxy] 🚫 Access denied | user lacks atom="{"role":"${role}","userPermissions":"${userPermissions}","pathname":"${pathname}","requiredAtom":"${requiredAtom}"}"`);
@@ -155,7 +157,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   // If route is protected but no specific permission map matches, assume standard access (or deny all?)
   // Better to deny by default if under /admin/
   if (pathname.startsWith('/admin/')) {
-    if (role === 'Admin') return allow(); // Fallback for pure Admins
+    if (role === 'admin') return allow(); // Fallback for pure Admins
     return redirectTo(`/403`, request);
   }
 

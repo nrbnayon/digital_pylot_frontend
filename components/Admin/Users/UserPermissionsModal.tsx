@@ -1,7 +1,8 @@
-"use client";
-
 import React, { useState } from "react";
 import { useUser } from "@/hooks/useUser";
+import { useUpdateUserMutation } from "@/redux/services/userApi";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 interface PermissionGroup {
   module: string;
@@ -9,23 +10,24 @@ interface PermissionGroup {
 }
 
 const AVAILABLE_PERMISSIONS: PermissionGroup[] = [
-  { module: "Dashboard", atoms: [{ id: "view_dashboard", label: "View Dashboard" }] },
+  { module: "Dashboard", atoms: [{ id: "view_dashboard", label: "View Dashboard" }, { id: "view_audit_logs", label: "View Audit Logs" }] },
   { module: "Jobs", atoms: [{ id: "manage_jobs", label: "Manage Jobs" }, { id: "view_jobs", label: "View Jobs" }] },
   { module: "Applications", atoms: [{ id: "view_applications", label: "View Applications" }, { id: "manage_applications", label: "Manage Applications" }] },
   { module: "Users", atoms: [{ id: "manage_users", label: "Manage Users" }] },
   { module: "Settings", atoms: [{ id: "manage_settings", label: "Manage Settings" }, { id: "manage_categories", label: "Manage Categories" }] },
+  { module: "Notifications", atoms: [{ id: "view_notifications", label: "View Notifications" }] },
 ];
 
 interface UserPermissionsModalProps {
   user: any;
   onClose: () => void;
-  onSave: (userId: string, permissions: string[]) => void;
 }
 
-export function UserPermissionsModal({ user, onClose, onSave }: UserPermissionsModalProps) {
+export function UserPermissionsModal({ user, onClose }: UserPermissionsModalProps) {
   const { hasPermission } = useUser();
   const [selectedAtoms, setSelectedAtoms] = useState<Set<string>>(new Set(user.permissions || []));
   const [errorMsg, setErrorMsg] = useState("");
+  const [updatePermissions, { isLoading }] = useUpdateUserMutation();
 
   const toggleAtom = (atomId: string) => {
     // Check Grant Ceiling: Does the Manager HAVE this atom to give it?
@@ -44,8 +46,16 @@ export function UserPermissionsModal({ user, onClose, onSave }: UserPermissionsM
     setSelectedAtoms(newSet);
   };
 
-  const handleSave = () => {
-    onSave(user.id, Array.from(selectedAtoms));
+  const handleSave = async () => {
+    try {
+      const id = user.id || user._id; // Accommodate both formats
+      await updatePermissions({ id, permissions: Array.from(selectedAtoms) }).unwrap();
+      toast.success("Permissions updated successfully");
+      onClose();
+    } catch (error: any) {
+      console.error("Failed to update permissions:", error);
+      toast.error(error?.data?.message || "Failed to save changes. Grant ceiling might be enforced.");
+    }
   };
 
   return (
@@ -81,9 +91,9 @@ export function UserPermissionsModal({ user, onClose, onSave }: UserPermissionsM
                            key={atom.id}
                            onClick={() => toggleAtom(atom.id)}
                            className={`p-3 rounded-lg border-2 flex items-start gap-3 transition-all cursor-pointer select-none
-                              ${isActive ? 'border-indigo-600 bg-indigo-50/50' : 'border-gray-200 hover:border-indigo-300'}
-                              ${isDisabled ? 'opacity-50 grayscale cursor-not-allowed' : ''}
-                           `}
+                               ${isActive ? 'border-indigo-600 bg-indigo-50/50' : 'border-gray-200 hover:border-indigo-300'}
+                               ${isDisabled ? 'opacity-50 grayscale cursor-not-allowed' : ''}
+                            `}
                         >
                            <div className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center shrink-0
                                ${isActive ? 'bg-indigo-600 border-indigo-600' : 'border-gray-300'}
@@ -105,9 +115,13 @@ export function UserPermissionsModal({ user, onClose, onSave }: UserPermissionsM
         </div>
 
         <div className="p-6 bg-gray-50 border-t flex justify-end gap-3 sticky bottom-0">
-          <button onClick={onClose} className="px-5 py-2.5 rounded-lg font-medium text-gray-700 hover:bg-gray-200 transition-colors">Cancel</button>
-          <button onClick={handleSave} className="px-5 py-2.5 rounded-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm">
-             Save Access Changes
+          <button onClick={onClose} disabled={isLoading} className="px-5 py-2.5 rounded-lg font-medium text-gray-700 hover:bg-gray-200 transition-colors">Cancel</button>
+          <button 
+             onClick={handleSave} 
+             disabled={isLoading}
+             className="px-5 py-2.5 rounded-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm min-w-[140px] flex items-center justify-center gap-2"
+          >
+             {isLoading ? <Loader2 className="animate-spin h-4 w-4" /> : "Save Changes"}
           </button>
         </div>
       </div>

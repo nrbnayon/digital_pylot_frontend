@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useUser } from "@/hooks/useUser";
 import { UsersTable } from "@/components/Admin/Users/UsersTable";
 import { UserPermissionsModal } from "@/components/Admin/Users/UserPermissionsModal";
+import { useGetUsersQuery } from "@/redux/services/userApi";
 
 export default function UsersPage() {
   const { hasPermission } = useUser();
-  const [users, setUsers] = useState<any[]>([]);
+  const { data: users = [], isLoading, isError } = useGetUsersQuery();
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
 
   // Fallback check (proxy.ts should handle this, but client side check is extra safety)
@@ -15,29 +16,12 @@ export default function UsersPage() {
     return <div className="p-10 text-xl font-bold text-red-500">Access Denied: You do require manage_users permission</div>;
   }
 
-  // Load dummy data or fetch from backend API
-  useEffect(() => {
-    // In real app: fetch('/api/users', { headers: { Authorization: `Bearer ${token}` } })
-    // For now we simulate with dummy data 
-    import("@/data/usersData").then((m) => {
-       // We add dummy permissions to each user for demonstration
-       const loadedUsers = m.usersData.map((u: any) => ({
-           ...u,
-           permissions: u.role === "admin" ? ["view_dashboard", "manage_jobs", "manage_users"] : ["view_dashboard"]
-       }));
-       setUsers(loadedUsers);
-    });
-  }, []);
-
   const handleEditPermissions = (user: any) => {
     setSelectedUser(user);
   };
 
-  const handleSavePermissions = (userId: string, newPermissions: string[]) => {
-    // API Call: PUT /api/users/:id { permissions: newPermissions }
-    setUsers(prev => prev.map(u => u.id === userId ? { ...u, permissions: newPermissions } : u));
-    setSelectedUser(null);
-  };
+  if (isLoading) return <div className="p-10">Loading users...</div>;
+  if (isError) return <div className="p-10 text-red-500">Failed to load users from API</div>;
 
   return (
     <div className="p-6">
@@ -48,13 +32,15 @@ export default function UsersPage() {
         </button>
       </div>
 
-      <UsersTable users={users} onEditPermissions={handleEditPermissions} />
+      <UsersTable 
+        users={users.map(u => ({ ...u, id: u._id }))} 
+        onEditPermissions={handleEditPermissions} 
+      />
       
       {selectedUser && (
         <UserPermissionsModal 
            user={selectedUser} 
            onClose={() => setSelectedUser(null)} 
-           onSave={handleSavePermissions} 
         />
       )}
     </div>
