@@ -1,4 +1,4 @@
-import ForgetPassword from "../../../components/Auth/ForgetPassword";
+import ForgetPassword from "@/components/Auth/ForgetPassword";
 
 export const metadata = {
   title: `Forgot Password | ${process.env.NEXT_PUBLIC_APP_NAME} `,
