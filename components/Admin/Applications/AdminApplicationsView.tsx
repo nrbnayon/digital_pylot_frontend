@@ -30,7 +30,7 @@ function ApplicationDetailModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         className="relative bg-white w-full max-w-[560px] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
       >
-        <div className="bg-[#4640DE] px-8 py-6">
+        <div className="bg-primary px-8 py-6">
           <h2 className="text-white font-semibold text-[20px]">Application Details</h2>
           <p className="text-white/70 text-[14px] mt-1">
             {jobInfo.title}
@@ -60,7 +60,7 @@ function ApplicationDetailModal({
               href={app.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[#4640DE] font-semibold text-[14px] hover:underline"
+              className="inline-flex items-center gap-2 text-primary font-semibold text-[14px] hover:underline"
             >
               <ExternalLink className="w-4 h-4" /> View Resume
             </a>
@@ -75,7 +75,7 @@ function ApplicationDetailModal({
                 href={app.portfolio}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[#4640DE] font-semibold text-[14px] hover:underline"
+                className="inline-flex items-center gap-2 text-primary font-semibold text-[14px] hover:underline"
               >
                 <ExternalLink className="w-4 h-4" /> Open Link
               </a>
@@ -96,7 +96,7 @@ function ApplicationDetailModal({
           <button
             type="button"
             onClick={onClose}
-            className="mt-2 w-full border-2 border-[#D6DDEB] text-[#515B6F] font-semibold py-3 hover:border-[#4640DE] hover:text-[#4640DE] transition-colors"
+            className="mt-2 w-full border-2 border-[#D6DDEB] text-[#515B6F] font-semibold py-3 hover:border-primary hover:text-primary transition-colors"
           >
             Close
           </button>
@@ -203,7 +203,7 @@ export default function AdminApplicationsView() {
                 >
                   {/* Name */}
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-9 h-9 rounded-full bg-[#4640DE]/10 flex items-center justify-center shrink-0 font-semibold text-[14px] text-[#4640DE]">
+                    <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0 font-semibold text-[14px] text-primary">
                       {app.name.charAt(0).toUpperCase()}
                     </div>
                     <span className="font-semibold text-[14px] text-[#25324B] truncate">
@@ -232,7 +232,7 @@ export default function AdminApplicationsView() {
                     <span className="text-[12px] text-[#7C8493]">
                       {new Date(app.createdAt).toLocaleDateString()}
                     </span>
-                    <ChevronRight className="w-4 h-4 text-[#D6DDEB] group-hover:text-[#4640DE] transition-colors" />
+                    <ChevronRight className="w-4 h-4 text-[#D6DDEB] group-hover:text-primary transition-colors" />
                   </div>
                 </motion.div>
               );

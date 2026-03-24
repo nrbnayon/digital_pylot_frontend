@@ -148,7 +148,7 @@ export default function CategoriesSection() {
           >
             <Link
               href="/jobs"
-              className="flex items-center gap-2 text-[#4640DE] font-semibold text-[15px] hover:gap-3 transition-all duration-200 whitespace-nowrap"
+              className="flex items-center gap-2 text-primary font-semibold text-[15px] hover:gap-3 transition-all duration-200 whitespace-nowrap"
             >
               Show all jobs <ArrowRight className="w-5 h-5" />
             </Link>
@@ -174,8 +174,8 @@ export default function CategoriesSection() {
                     onClick={() => setActiveId(cat.id)}
                     className={`border p-6 sm:p-8 flex flex-col gap-6 cursor-pointer transition-all duration-200 group ${
                       isActive
-                        ? "bg-[#4640DE] border-[#4640DE] shadow-[0_8px_32px_rgba(70,64,222,0.25)]"
-                        : "bg-white border-[#D6DDEB] hover:border-[#4640DE] hover:shadow-[0_8px_32px_rgba(70,64,222,0.1)] hover:-translate-y-1"
+                        ? "bg-primary border-primary shadow-[0_8px_32px_rgba(70,64,222,0.25)]"
+                        : "bg-white border-[#D6DDEB] hover:border-primary hover:shadow-[0_8px_32px_rgba(70,64,222,0.1)] hover:-translate-y-1"
                     }`}
                   >
                     <div className="w-8 h-8 flex items-center justify-center">

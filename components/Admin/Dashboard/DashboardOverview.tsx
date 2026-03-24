@@ -105,19 +105,19 @@ export default function DashboardOverview() {
             className="lg:col-span-2 bg-gradient-to-br from-white via-[#FAFBFF] to-[#F5F6FA] dark:from-card dark:via-card dark:to-card border border-[#D6DDEB]/60 rounded-3xl p-8 shadow-md hover:shadow-lg transition-all duration-300 flex flex-col gap-6 relative overflow-hidden"
           >
             {/* Decorative gradient background */}
-            <div className="absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br from-[#4640DE] to-[#56CDAD] rounded-full opacity-5 blur-3xl" />
+            <div className="absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br from-primary to-[#56CDAD] rounded-full opacity-5 blur-3xl" />
             
             <div className="flex items-center justify-between relative z-10">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <h3 className="font-clash font-bold text-[22px] bg-gradient-to-r from-[#25324B] to-[#4640DE] bg-clip-text text-transparent">Job Posting Volume</h3>
-                  <span className="px-2.5 py-1 bg-gradient-to-r from-[#4640DE]/10 to-[#56CDAD]/10 text-[11px] font-semibold text-[#4640DE] rounded-full uppercase tracking-wide">Live</span>
+                  <h3 className="font-clash font-bold text-[22px] bg-gradient-to-r from-[#25324B] to-primary bg-clip-text text-transparent">Job Posting Volume</h3>
+                  <span className="px-2.5 py-1 bg-gradient-to-r from-primary/10 to-[#56CDAD]/10 text-[11px] font-semibold text-primary rounded-full uppercase tracking-wide">Live</span>
                 </div>
                 <p className="text-[13px] text-[#7C8493] font-medium">Real-time trajectory of new job listings across all departments</p>
               </div>
               <div className="flex items-center gap-3 ml-4 hidden">
-                <button className="p-3 bg-gradient-to-br from-[#4640DE]/10 to-[#56CDAD]/10 border border-[#4640DE]/20 rounded-xl hover:from-[#4640DE]/15 hover:to-[#56CDAD]/15 transition-all duration-200 hover:shadow-md hover:scale-105">
-                  <Calendar className="w-5 h-5 text-[#4640DE]" />
+                <button className="p-3 bg-gradient-to-br from-primary/10 to-[#56CDAD]/10 border border-primary/20 rounded-xl hover:from-primary/15 hover:to-[#56CDAD]/15 transition-all duration-200 hover:shadow-md hover:scale-105">
+                  <Calendar className="w-5 h-5 text-primary" />
                 </button>
               </div>
             </div>
@@ -161,12 +161,12 @@ export default function DashboardOverview() {
             </div>
 
             {/* Bottom stats pill */}
-            <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#4640DE]/5 to-[#56CDAD]/5 border border-[#4640DE]/10 rounded-xl relative z-10">
+            <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-primary/5 to-[#56CDAD]/5 border border-primary/10 rounded-xl relative z-10">
               <div className="flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-[#4640DE]" />
+                <TrendingUp className="w-4 h-4 text-primary" />
                 <span className="text-[13px] font-semibold text-[#25324B]">Trend:</span>
               </div>
-              <span className="text-[13px] font-bold text-[#4640DE]">
+              <span className="text-[13px] font-bold text-primary">
                 {trendData.length > 1 
                   ? trendData[trendData.length - 1]?.count > trendData[0]?.count 
                     ? "↑ Increasing"
@@ -259,7 +259,7 @@ export default function DashboardOverview() {
           >
             <div className="flex items-center justify-between mb-6">
                <h3 className="font-clash font-semibold text-[18px] text-[#25324B]">Quick Insights</h3>
-               <span className="px-3 py-1 bg-[#4640DE10] text-[#4640DE] text-[10px] font-semibold rounded-lg uppercase">Real-Time</span>
+               <span className="px-3 py-1 bg-[#4640DE10] text-primary text-[10px] font-semibold rounded-lg uppercase">Real-Time</span>
             </div>
 
             <div className="space-y-6">
@@ -274,7 +274,7 @@ export default function DashboardOverview() {
                    </div>
                    <div>
                      <h4 className="font-semibold text-[14px] text-[#25324B] mb-0.5">{item.label}</h4>
-                     <p className="text-[14px] font-semibold text-[#4640DE]">{item.value}</p>
+                     <p className="text-[14px] font-semibold text-primary">{item.value}</p>
                      <p className="text-[12px] text-[#7C8493]">{item.desc}</p>
                    </div>
                 </div>

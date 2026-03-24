@@ -162,7 +162,7 @@ export default function HeroSection() {
                   {/* Search CTA */}
                   <button
                     type="submit"
-                    className="bg-[#4640DE] text-white font-semibold text-[16px] px-8 py-5 hover:bg-[#3530C4] active:bg-[#2d28b0] transition-colors duration-200 whitespace-nowrap shrink-0 w-full sm:w-auto text-center"
+                    className="bg-primary text-white font-semibold text-[16px] px-8 py-5 hover:bg-primary/80 active:bg-[#2d28b0] transition-colors duration-200 whitespace-nowrap shrink-0 w-full sm:w-auto text-center cursor-pointer"
                   >
                     Search my job
                   </button>
@@ -177,7 +177,7 @@ export default function HeroSection() {
                       onClick={() =>
                         router.push(`/jobs?search=${encodeURIComponent(tag)}`)
                       }
-                      className="font-semibold text-[#202430]/70 hover:text-[#4640DE] transition-colors"
+                      className="font-semibold text-[#202430]/70 hover:text-primary transition-colors"
                     >
                       {tag}
                       {i < 3 ? ", " : ""}

@@ -38,7 +38,7 @@ export default function CTASection() {
               </p>
               <Link
                 href="/signup"
-                className="bg-white text-[#4640DE] font-semibold text-[16px] px-8 py-4 w-fit border-2 border-white hover:bg-transparent hover:text-white transition-all duration-200"
+                className="bg-white text-primary font-semibold text-[16px] px-8 py-4 w-fit border-2 border-white hover:bg-transparent hover:text-white transition-all duration-200"
               >
                 Sign Up For Free
               </Link>

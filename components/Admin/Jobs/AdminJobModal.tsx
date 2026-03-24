@@ -170,7 +170,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
               {mode === "view" && (
                 <button 
                   onClick={() => setMode("edit")}
-                  className="p-2 text-[#4640DE] hover:bg-[#4640DE]/10 rounded-lg transition-colors border border-[#4640DE]/20"
+                  className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors border border-primary/20"
                 >
                   <Pencil className="w-5 h-5" />
                 </button>
@@ -191,7 +191,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
               
               {/* Basic Information */}
               <div className="space-y-5">
-                <div className="flex items-center gap-2 text-[#4640DE]">
+                <div className="flex items-center gap-2 text-primary">
                   <Briefcase className="w-4 h-4" />
                   <span className="font-semibold text-[14px] uppercase tracking-wider">Basic Information</span>
                 </div>
@@ -208,7 +208,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                         )}
                       </div>
                       <div className="flex-1">
-                        <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-white border border-[#D6DDEB] text-[#515B6F] text-[13px] font-semibold hover:border-[#4640DE] hover:text-[#4640DE] rounded-lg transition-all">
+                        <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-white border border-[#D6DDEB] text-[#515B6F] text-[13px] font-semibold hover:border-primary hover:text-primary rounded-lg transition-all">
                           {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
                           {isUploading ? "Uploading..." : "Upload Logo"}
                           <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} disabled={isUploading} />
@@ -229,7 +229,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                       <input 
                         value={form.title} 
                         onChange={(e) => setForm({ ...form, title: e.target.value })}
-                        className={cn("w-full px-4 py-3 bg-[#F8F8FD] border rounded-lg focus:border-[#4640DE] outline-none text-[14px] transition-all", errors.title ? "border-red-500" : "border-[#D6DDEB]")}
+                        className={cn("w-full px-4 py-3 bg-[#F8F8FD] border rounded-lg focus:border-primary outline-none text-[14px] transition-all", errors.title ? "border-red-500" : "border-[#D6DDEB]")}
                         placeholder="e.g. Senior Product Designer"
                       />
                     )}
@@ -244,7 +244,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                       <input 
                         value={form.company} 
                         onChange={(e) => setForm({ ...form, company: e.target.value })}
-                        className={cn("w-full px-4 py-3 bg-[#F8F8FD] border rounded-lg focus:border-[#4640DE] outline-none text-[14px] transition-all", errors.company ? "border-red-500" : "border-[#D6DDEB]")}
+                        className={cn("w-full px-4 py-3 bg-[#F8F8FD] border rounded-lg focus:border-primary outline-none text-[14px] transition-all", errors.company ? "border-red-500" : "border-[#D6DDEB]")}
                         placeholder="e.g. Stripe"
                       />
                     )}
@@ -261,7 +261,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                         <input 
                           value={form.location} 
                           onChange={(e) => setForm({ ...form, location: e.target.value })}
-                          className={cn("w-full pl-10 pr-4 py-3 bg-[#F8F8FD] border rounded-lg focus:border-[#4640DE] outline-none text-[14px] transition-all", errors.location ? "border-red-500" : "border-[#D6DDEB]")}
+                          className={cn("w-full pl-10 pr-4 py-3 bg-[#F8F8FD] border rounded-lg focus:border-primary outline-none text-[14px] transition-all", errors.location ? "border-red-500" : "border-[#D6DDEB]")}
                           placeholder="e.g. Paris, France or Remote"
                         />
                       </div>
@@ -279,7 +279,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                         <input 
                           value={form.salary} 
                           onChange={(e) => setForm({ ...form, salary: e.target.value })}
-                          className="w-full pl-10 pr-4 py-3 bg-[#F8F8FD] border border-[#D6DDEB] rounded-lg focus:border-[#4640DE] outline-none text-[14px] transition-all"
+                          className="w-full pl-10 pr-4 py-3 bg-[#F8F8FD] border border-[#D6DDEB] rounded-lg focus:border-primary outline-none text-[14px] transition-all"
                           placeholder="e.g. $100k - $120k"
                         />
                       </div>
@@ -295,7 +295,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                       <select 
                         value={form.type} 
                         onChange={(e) => setForm({ ...form, type: e.target.value as JobType })}
-                        className="w-full px-4 py-3 bg-[#F8F8FD] border border-[#D6DDEB] rounded-lg focus:border-[#4640DE] outline-none text-[14px] transition-all appearance-none cursor-pointer"
+                        className="w-full px-4 py-3 bg-[#F8F8FD] border border-[#D6DDEB] rounded-lg focus:border-primary outline-none text-[14px] transition-all appearance-none cursor-pointer"
                       >
                         {jobTypes.map(t => <option key={t} value={t}>{t}</option>)}
                       </select>
@@ -311,7 +311,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                       <select 
                         value={form.category} 
                         onChange={(e) => setForm({ ...form, category: e.target.value as JobCategory })}
-                        className="w-full px-4 py-3 bg-[#F8F8FD] border border-[#D6DDEB] rounded-lg focus:border-[#4640DE] outline-none text-[14px] transition-all appearance-none cursor-pointer"
+                        className="w-full px-4 py-3 bg-[#F8F8FD] border border-[#D6DDEB] rounded-lg focus:border-primary outline-none text-[14px] transition-all appearance-none cursor-pointer"
                       >
                         {categories.map(c => <option key={c} value={c}>{c}</option>)}
                       </select>
@@ -332,7 +332,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                           type="checkbox"
                           checked={Boolean(form.featured)}
                           onChange={(e) => setForm({ ...form, featured: e.target.checked })}
-                          className="w-4 h-4 accent-[#4640DE] cursor-pointer"
+                          className="w-4 h-4 accent-primary cursor-pointer"
                         />
                       </label>
                     )}
@@ -342,7 +342,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
 
               {/* Description & Requirements */}
               <div className="space-y-6">
-                <div className="flex items-center gap-2 text-[#4640DE] pt-4">
+                <div className="flex items-center gap-2 text-primary pt-4">
                   <Building2 className="w-4 h-4" />
                   <span className="font-semibold text-[14px] uppercase tracking-wider">Role Details</span>
                 </div>
@@ -355,7 +355,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                     <textarea 
                       value={form.description} 
                       onChange={(e) => setForm({ ...form, description: e.target.value })}
-                      className={cn("w-full px-4 py-3 bg-[#F8F8FD] border rounded-lg focus:border-[#4640DE] outline-none text-[14px] transition-all min-h-[120px] resize-none", errors.description ? "border-red-500" : "border-[#D6DDEB]")}
+                      className={cn("w-full px-4 py-3 bg-[#F8F8FD] border rounded-lg focus:border-primary outline-none text-[14px] transition-all min-h-[120px] resize-none", errors.description ? "border-red-500" : "border-[#D6DDEB]")}
                       placeholder="Explain the role and mission..."
                     />
                   )}
@@ -368,7 +368,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                     <div key={i} className="flex gap-2">
                        {mode === "view" ? (
                          <div className="flex gap-3 text-[14px] text-[#515B6F] bg-[#F8F8FD] p-3 rounded-lg flex-1">
-                           <span className="text-[#4640DE] font-semibold">•</span>
+                           <span className="text-primary font-semibold">•</span>
                            <span>{r}</span>
                          </div>
                        ) : (
@@ -376,7 +376,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                           <input 
                             value={r} 
                             onChange={(e) => updateListItem("responsibilities", i, e.target.value)}
-                            className="flex-1 px-4 py-2 border border-[#D6DDEB] bg-[#F8F8FD] rounded-lg text-[13px] outline-none focus:border-[#4640DE]" 
+                            className="flex-1 px-4 py-2 border border-[#D6DDEB] bg-[#F8F8FD] rounded-lg text-[13px] outline-none focus:border-primary" 
                             placeholder={`Point ${i+1}`}
                           />
                           <button type="button" onClick={() => removeListItem("responsibilities", i)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg">
@@ -387,7 +387,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                     </div>
                   ))}
                   {mode !== "view" && (
-                    <button type="button" onClick={() => addListItem("responsibilities")} className="flex items-center gap-1.5 text-[13px] text-[#4640DE] font-semibold hover:underline px-2">
+                    <button type="button" onClick={() => addListItem("responsibilities")} className="flex items-center gap-1.5 text-[13px] text-primary font-semibold hover:underline px-2">
                       <Plus className="w-4 h-4" /> Add Responsibility
                     </button>
                   )}
@@ -400,7 +400,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                     <div key={i} className="flex gap-2">
                        {mode === "view" ? (
                          <div className="flex gap-3 text-[14px] text-[#515B6F] bg-[#F8F8FD] p-3 rounded-lg flex-1">
-                           <span className="text-[#4640DE] font-semibold">•</span>
+                           <span className="text-primary font-semibold">•</span>
                            <span>{r}</span>
                          </div>
                        ) : (
@@ -408,7 +408,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                           <input 
                             value={r} 
                             onChange={(e) => updateListItem("requirements", i, e.target.value)}
-                            className="flex-1 px-4 py-2 border border-[#D6DDEB] bg-[#F8F8FD] rounded-lg text-[13px] outline-none focus:border-[#4640DE]" 
+                            className="flex-1 px-4 py-2 border border-[#D6DDEB] bg-[#F8F8FD] rounded-lg text-[13px] outline-none focus:border-primary" 
                             placeholder={`Requirement ${i+1}`}
                           />
                           <button type="button" onClick={() => removeListItem("requirements", i)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg">
@@ -419,7 +419,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                     </div>
                   ))}
                   {mode !== "view" && (
-                    <button type="button" onClick={() => addListItem("requirements")} className="flex items-center gap-1.5 text-[13px] text-[#4640DE] font-semibold hover:underline px-2">
+                    <button type="button" onClick={() => addListItem("requirements")} className="flex items-center gap-1.5 text-[13px] text-primary font-semibold hover:underline px-2">
                       <Plus className="w-4 h-4" /> Add Requirement
                     </button>
                   )}
@@ -435,17 +435,17 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                       value={tagInput} 
                       onChange={(e) => setTagInput(e.target.value)}
                       onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(); } }}
-                      className="flex-1 px-4 py-2 border border-[#D6DDEB] bg-[#F8F8FD] rounded-lg text-[13px] outline-none focus:border-[#4640DE]" 
+                      className="flex-1 px-4 py-2 border border-[#D6DDEB] bg-[#F8F8FD] rounded-lg text-[13px] outline-none focus:border-primary" 
                       placeholder="Add tag (e.g. Remote, Senior)..."
                     />
-                    <button type="button" onClick={addTag} className="px-5 bg-white border-2 border-[#D6DDEB] text-[#515B6F] text-[13px] font-semibold hover:border-[#4640DE] hover:text-[#4640DE] rounded-lg transition-all">
+                    <button type="button" onClick={addTag} className="px-5 bg-white border-2 border-[#D6DDEB] text-[#515B6F] text-[13px] font-semibold hover:border-primary hover:text-primary rounded-lg transition-all">
                       Add
                     </button>
                   </div>
                 )}
                 <div className="flex flex-wrap gap-2">
                   {form.tags.map((tag) => (
-                    <span key={tag} className="flex items-center gap-1.5 px-4 py-1.5 bg-[#4640DE]/5 text-[#4640DE] text-[12px] font-semibold rounded-full border border-[#4640DE]/10 group">
+                    <span key={tag} className="flex items-center gap-1.5 px-4 py-1.5 bg-primary/5 text-primary text-[12px] font-semibold rounded-full border border-primary/10 group">
                       {tag}
                       {mode !== "view" && (
                         <button type="button" onClick={() => setForm({ ...form, tags: form.tags.filter(t => t !== tag) })} className="hover:text-red-500">
@@ -483,7 +483,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
                 <button 
                   type="button"
                   onClick={() => setMode("edit")}
-                  className="px-8 py-3 bg-[#4640DE] text-white font-semibold text-[14px] rounded-xl hover:bg-[#3530C4] shadow-[0_10px_30px_rgba(70,64,222,0.2)] transition-all flex items-center gap-2"
+                  className="px-8 py-3 bg-primary text-white font-semibold text-[14px] rounded-xl hover:bg-primary/80 shadow-[0_10px_30px_rgba(70,64,222,0.2)] transition-all flex items-center gap-2"
                 >
                   <Pencil className="w-4 h-4" /> Edit Details
                 </button>
@@ -492,7 +492,7 @@ export default function AdminJobModal({ isOpen, onClose, mode: initialMode, job,
               <button 
                 type="submit"
                 form="job-modal-form"
-                className="px-10 py-3 bg-[#4640DE] text-white font-semibold text-[14px] rounded-xl hover:bg-[#3530C4] shadow-[0_10px_30px_rgba(70,64,222,0.2)] transition-all flex items-center gap-2"
+                className="px-10 py-3 bg-primary text-white font-semibold text-[14px] rounded-xl hover:bg-primary/80 shadow-[0_10px_30px_rgba(70,64,222,0.2)] transition-all flex items-center gap-2"
               >
                 {mode === "add" ? <Plus className="w-4 h-4" /> : <Pencil className="w-4 h-4" />}
                 {mode === "add" ? "Create Listing" : "Save Changes"}

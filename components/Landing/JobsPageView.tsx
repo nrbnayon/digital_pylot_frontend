@@ -45,7 +45,7 @@ function CategorySidebar({
                   type="checkbox"
                   checked={selectedTypes.includes(type)}
                   onChange={() => toggleType(type)}
-                  className="w-4 h-4 accent-[#4640DE] rounded cursor-pointer"
+                  className="w-4 h-4 accent-primary rounded cursor-pointer"
                 />
                 <span className="flex-1 text-[15px] text-[#515B6F] group-hover:text-[#25324B] transition-colors">
                   {type}
@@ -73,7 +73,7 @@ function CategorySidebar({
                   type="checkbox"
                   checked={selectedCategories.includes(cat)}
                   onChange={() => toggleCategory(cat)}
-                  className="w-4 h-4 accent-[#4640DE] rounded cursor-pointer"
+                  className="w-4 h-4 accent-primary rounded cursor-pointer"
                 />
                 <span className="flex-1 text-[15px] text-[#515B6F] group-hover:text-[#25324B] transition-colors">
                   {cat}
@@ -225,7 +225,7 @@ export default function JobsPageView() {
                 setLocationQuery(inputLocation);
                 setCurrentPage(1);
               }}
-              className="bg-[#4640DE] text-white font-semibold text-[15px] px-8 py-4 hover:bg-[#3530C4] transition-colors whitespace-nowrap cursor-pointer"
+              className="bg-primary text-white font-semibold text-[15px] px-8 py-4 hover:bg-primary/80 transition-colors whitespace-nowrap cursor-pointer"
             >
               Search Jobs
             </button>
@@ -239,7 +239,7 @@ export default function JobsPageView() {
                 <button
                   key={cat}
                   onClick={() => toggleCategory(cat)}
-                  className="flex items-center gap-1 px-3 py-1 bg-[#4640DE]/10 text-[#4640DE] text-[12px] font-semibold rounded-full hover:bg-[#4640DE]/20 transition-colors"
+                  className="flex items-center gap-1 px-3 py-1 bg-primary/10 text-primary text-[12px] font-semibold rounded-full hover:bg-primary/20 transition-colors"
                 >
                   {cat} <X className="w-3 h-3" />
                 </button>
@@ -270,7 +270,7 @@ export default function JobsPageView() {
         <div className="flex items-center justify-between mb-6 lg:hidden">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-4 py-2.5 border border-[#D6DDEB] bg-white text-[#25324B] font-semibold text-[14px] hover:border-[#4640DE] transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 border border-[#D6DDEB] bg-white text-[#25324B] font-semibold text-[14px] hover:border-primary transition-colors"
           >
             <Filter className="w-4 h-4" />
             Filters {hasFilters && `(${selectedCategories.length + selectedTypes.length})`}
@@ -282,8 +282,8 @@ export default function JobsPageView() {
                 onClick={() => setViewMode(mode)}
                 className={`px-4 py-2.5 text-[13px] font-semibold border transition-colors ${
                   viewMode === mode
-                    ? "bg-[#4640DE] text-white border-[#4640DE]"
-                    : "bg-white text-[#515B6F] border-[#D6DDEB] hover:border-[#4640DE]"
+                    ? "bg-primary text-white border-primary"
+                    : "bg-white text-[#515B6F] border-[#D6DDEB] hover:border-primary"
                 }`}
               >
                 {mode === "grid" ? "⊞ Grid" : "☰ List"}
@@ -319,8 +319,8 @@ export default function JobsPageView() {
                     onClick={() => setViewMode(mode)}
                     className={`px-4 py-2 text-[13px] font-semibold border transition-colors ${
                       viewMode === mode
-                        ? "bg-[#4640DE] text-white border-[#4640DE]"
-                        : "bg-white text-[#515B6F] border-[#D6DDEB] hover:border-[#4640DE]"
+                        ? "bg-primary text-white border-primary"
+                        : "bg-white text-[#515B6F] border-[#D6DDEB] hover:border-primary"
                     }`}
                   >
                     {mode === "grid" ? "⊞ Grid" : "☰ List"}
@@ -348,14 +348,14 @@ export default function JobsPageView() {
                 animate={{ opacity: 1 }}
                 className="bg-white border border-[#D6DDEB] p-16 text-center"
               >
-                <div className="w-16 h-16 bg-[#4640DE]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Search className="w-8 h-8 text-[#4640DE]" />
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="font-semibold text-[20px] text-[#25324B] mb-2">No jobs found</h3>
                 <p className="text-[#515B6F]">Try adjusting your search or filters</p>
                 <button
                   onClick={clearFilters}
-                  className="mt-4 px-6 py-2.5 bg-[#4640DE] text-white font-semibold text-[14px] hover:bg-[#3530C4] transition-colors"
+                  className="mt-4 px-6 py-2.5 bg-primary text-white font-semibold text-[14px] hover:bg-primary/80 transition-colors"
                 >
                   Clear filters
                 </button>

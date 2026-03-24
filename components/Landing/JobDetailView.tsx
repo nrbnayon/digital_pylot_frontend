@@ -103,7 +103,7 @@ function ApplyModal({
         className="relative bg-white w-full max-w-[560px] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
       >
         {/* Header */}
-        <div className="bg-[#4640DE] px-8 py-6">
+        <div className="bg-primary px-8 py-6">
           <h2 className="font-semibold text-[22px] text-white">
             {submitted ? "Application Sent!" : `Apply for ${jobTitle}`}
           </h2>
@@ -124,7 +124,7 @@ function ApplyModal({
             </p>
             <button
               onClick={onClose}
-              className="bg-[#4640DE] text-white font-semibold px-8 py-3 hover:bg-[#3530C4] transition-colors"
+              className="bg-primary text-white font-semibold px-8 py-3 hover:bg-primary/80 transition-colors"
             >
               Close
             </button>
@@ -141,7 +141,7 @@ function ApplyModal({
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="John Doe"
-                className={`w-full px-4 py-3 border outline-none text-[15px] text-[#25324B] placeholder:text-[#7C8493]/60 focus:border-[#4640DE] transition-colors ${
+                className={`w-full px-4 py-3 border outline-none text-[15px] text-[#25324B] placeholder:text-[#7C8493]/60 focus:border-primary transition-colors ${
                   errors.name ? "border-[#FF6550]" : "border-[#D6DDEB]"
                 }`}
               />
@@ -158,7 +158,7 @@ function ApplyModal({
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 placeholder="john@example.com"
-                className={`w-full px-4 py-3 border outline-none text-[15px] text-[#25324B] placeholder:text-[#7C8493]/60 focus:border-[#4640DE] transition-colors ${
+                className={`w-full px-4 py-3 border outline-none text-[15px] text-[#25324B] placeholder:text-[#7C8493]/60 focus:border-primary transition-colors ${
                   errors.email ? "border-[#FF6550]" : "border-[#D6DDEB]"
                 }`}
               />
@@ -175,7 +175,7 @@ function ApplyModal({
                 value={form.resumeUrl}
                 onChange={(e) => setForm({ ...form, resumeUrl: e.target.value })}
                 placeholder="https://drive.google.com/your-resume"
-                className={`w-full px-4 py-3 border outline-none text-[15px] text-[#25324B] placeholder:text-[#7C8493]/60 focus:border-[#4640DE] transition-colors ${
+                className={`w-full px-4 py-3 border outline-none text-[15px] text-[#25324B] placeholder:text-[#7C8493]/60 focus:border-primary transition-colors ${
                   errors.resumeUrl ? "border-[#FF6550]" : "border-[#D6DDEB]"
                 }`}
               />
@@ -194,7 +194,7 @@ function ApplyModal({
                 value={form.portfolio}
                 onChange={(e) => setForm({ ...form, portfolio: e.target.value })}
                 placeholder="https://yourportfolio.com"
-                className="w-full px-4 py-3 border border-[#D6DDEB] outline-none text-[15px] text-[#25324B] placeholder:text-[#7C8493]/60 focus:border-[#4640DE] transition-colors"
+                className="w-full px-4 py-3 border border-[#D6DDEB] outline-none text-[15px] text-[#25324B] placeholder:text-[#7C8493]/60 focus:border-primary transition-colors"
               />
             </div>
 
@@ -208,7 +208,7 @@ function ApplyModal({
                 onChange={(e) => setForm({ ...form, coverNote: e.target.value })}
                 placeholder="Tell us why you're a great fit for this role..."
                 rows={4}
-                className={`w-full px-4 py-3 border outline-none text-[15px] text-[#25324B] placeholder:text-[#7C8493]/60 focus:border-[#4640DE] transition-colors resize-none ${
+                className={`w-full px-4 py-3 border outline-none text-[15px] text-[#25324B] placeholder:text-[#7C8493]/60 focus:border-primary transition-colors resize-none ${
                   errors.coverNote ? "border-[#FF6550]" : "border-[#D6DDEB]"
                 }`}
               />
@@ -221,14 +221,14 @@ function ApplyModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 border-2 border-[#D6DDEB] text-[#515B6F] font-semibold py-3 hover:border-[#4640DE] hover:text-[#4640DE] transition-colors cursor-pointer"
+                className="flex-1 border-2 border-[#D6DDEB] text-[#515B6F] font-semibold py-3 hover:border-primary hover:text-primary transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isLoading}
-                className="flex-1 bg-[#4640DE] text-white font-semibold py-3 hover:bg-[#3530C4] transition-colors flex items-center justify-center gap-2 disabled:opacity-70 cursor-pointer"
+                className="flex-1 bg-primary text-white font-semibold py-3 hover:bg-primary/80 transition-colors flex items-center justify-center gap-2 disabled:opacity-70 cursor-pointer"
               >
                 {isLoading ? (
                   <>
@@ -288,7 +288,7 @@ export default function JobDetailView({ id }: { id: string }) {
           <div className="max-w-[1240px] mx-auto px-5 sm:px-8 lg:px-0">
             <Link
               href="/jobs"
-              className="inline-flex items-center gap-2 text-[#4640DE] font-semibold text-[14px]"
+              className="inline-flex items-center gap-2 text-primary font-semibold text-[14px]"
             >
               <ArrowLeft className="w-4 h-4" /> Back to Jobs
             </Link>
@@ -318,7 +318,7 @@ export default function JobDetailView({ id }: { id: string }) {
           </p>
           <Link
             href="/jobs"
-            className="bg-[#4640DE] text-white font-semibold px-8 py-3 hover:bg-[#3530C4] transition-colors inline-block"
+            className="bg-primary text-white font-semibold px-8 py-3 hover:bg-primary/80 transition-colors inline-block"
           >
             Back to Jobs
           </Link>
@@ -340,7 +340,7 @@ export default function JobDetailView({ id }: { id: string }) {
         <div className="max-w-[1240px] mx-auto px-5 sm:px-8 lg:px-0">
           <Link
             href="/jobs"
-            className="inline-flex items-center gap-2 text-[#4640DE] font-semibold text-[14px] hover:gap-3 transition-all"
+            className="inline-flex items-center gap-2 text-primary font-semibold text-[14px] hover:gap-3 transition-all"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Jobs
           </Link>
@@ -393,7 +393,7 @@ export default function JobDetailView({ id }: { id: string }) {
                           ? "text-[#FFB836] border-[#FFB836] bg-[#FFB836]/10"
                           : job.type === "Contract"
                           ? "text-[#FF6550] border-[#FF6550] bg-[#FF6550]/10"
-                          : "text-[#4640DE] border-[#4640DE] bg-[#4640DE]/10"
+                          : "text-primary border-primary bg-primary/10"
                       }`}
                     >
                       {job.type}
@@ -424,7 +424,7 @@ export default function JobDetailView({ id }: { id: string }) {
               ) : (
                 <button
                   onClick={() => setShowApply(true)}
-                  className="mt-6 w-full sm:w-auto bg-[#4640DE] text-white font-semibold text-[16px] px-10 py-4 hover:bg-[#3530C4] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                  className="mt-6 w-full sm:w-auto bg-primary text-white font-semibold text-[16px] px-10 py-4 hover:bg-primary/80 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
                   Apply Now <Send className="w-4 h-4" />
                 </button>
@@ -451,7 +451,7 @@ export default function JobDetailView({ id }: { id: string }) {
                   <ul className="flex flex-col gap-3">
                     {job.responsibilities.map((item, i) => (
                       <li key={i} className="flex items-start gap-3 text-[15px] text-[#515B6F]">
-                        <CheckCircle2 className="w-5 h-5 text-[#4640DE] shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                         {item}
                       </li>
                     ))}
@@ -484,7 +484,7 @@ export default function JobDetailView({ id }: { id: string }) {
               ) : (
                 <button
                   onClick={() => setShowApply(true)}
-                  className="w-full sm:w-auto self-start bg-[#4640DE] text-white font-semibold text-[15px] px-8 py-3.5 hover:bg-[#3530C4] transition-colors flex items-center gap-2 cursor-pointer"
+                  className="w-full sm:w-auto self-start bg-primary text-white font-semibold text-[15px] px-8 py-3.5 hover:bg-primary/80 transition-colors flex items-center gap-2 cursor-pointer"
                 >
                   Apply Now <Send className="w-4 h-4" />
                 </button>
@@ -512,8 +512,8 @@ export default function JobDetailView({ id }: { id: string }) {
                   { icon: Users, label: "Company Size", value: job.companySize || "N/A" },
                 ].map(({ icon: Icon, label, value }) => (
                   <div key={label} className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-[#4640DE]/[0.08] rounded-lg flex items-center justify-center shrink-0">
-                      <Icon className="w-4 h-4 text-[#4640DE]" />
+                    <div className="w-10 h-10 bg-primary/[0.08] rounded-lg flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 text-primary" />
                     </div>
                     <div>
                       <p className="text-[12px] text-[#7C8493]">{label}</p>
@@ -529,7 +529,7 @@ export default function JobDetailView({ id }: { id: string }) {
               initial={{ opacity: 0, x: 16 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-[#4640DE] p-6 text-white"
+              className="bg-primary p-6 text-white"
             >
               <h3 className="font-semibold text-[18px] mb-2">Interested in this job?</h3>
               <p className="text-white/70 text-[14px] mb-5">
@@ -545,7 +545,7 @@ export default function JobDetailView({ id }: { id: string }) {
               ) : (
                 <button
                   onClick={() => setShowApply(true)}
-                  className="w-full bg-white text-[#4640DE] font-semibold py-3 hover:bg-[#F8F8FD] transition-colors text-[15px] cursor-pointer"
+                  className="w-full bg-white text-primary font-semibold py-3 hover:bg-[#F8F8FD] transition-colors text-[15px] cursor-pointer"
                 >
                   Apply Now
                 </button>

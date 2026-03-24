@@ -129,7 +129,7 @@ export default function AdminJobsView() {
               value={query}
               onChange={(e) => { setQuery(e.target.value); setCurrentPage(1); }}
               placeholder="Search jobs, companies..."
-              className="w-full pl-10 pr-4 py-2.5 border border-[#D6DDEB] bg-white outline-none text-[14px] text-[#25324B] placeholder:text-[#7C8493]/60 focus:border-[#4640DE] transition-colors rounded-lg shadow-sm"
+              className="w-full pl-10 pr-4 py-2.5 border border-[#D6DDEB] bg-white outline-none text-[14px] text-[#25324B] placeholder:text-[#7C8493]/60 focus:border-primary transition-colors rounded-lg shadow-sm"
             />
             {query && (
               <button onClick={() => { setQuery(""); setCurrentPage(1); }} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7C8493] hover:text-[#25324B]">
@@ -140,7 +140,7 @@ export default function AdminJobsView() {
 
           <button
             onClick={() => openModal("add")}
-            className="flex items-center gap-2 bg-[#4640DE] text-white font-semibold text-[14px] px-6 py-2.5 hover:bg-[#3530C4] transition-all rounded-lg whitespace-nowrap shadow-[0_4px_14px_rgba(70,64,222,0.25)] hover:-translate-y-0.5"
+            className="flex items-center gap-2 bg-primary text-white font-semibold text-[14px] px-6 py-2.5 hover:bg-primary/80 transition-all rounded-lg whitespace-nowrap shadow-[0_4px_14px_rgba(70,64,222,0.25)] hover:-translate-y-0.5"
           >
             <Plus className="w-4 h-4" /> Add New Job
           </button>
@@ -195,7 +195,7 @@ export default function AdminJobsView() {
                             )}
                           </div>
                           <div>
-                            <span className="font-semibold text-[14px] text-[#25324B] group-hover:text-[#4640DE] transition-colors text-left block">
+                            <span className="font-semibold text-[14px] text-[#25324B] group-hover:text-primary transition-colors text-left block">
                               {job.title}
                             </span>
                             <p className="text-[12px] text-[#7C8493] sm:hidden">{job.company}</p>
@@ -204,7 +204,7 @@ export default function AdminJobsView() {
                       </td>
                       <td className="px-4 py-4 text-[14px] text-[#515B6F] hidden sm:table-cell font-medium">{job.company}</td>
                       <td className="px-4 py-4 hidden md:table-cell">
-                        <span className="px-2.5 py-1 bg-[#4640DE]/5 text-[#4640DE] text-[12px] font-semibold rounded-full border border-[#4640DE]/10">
+                        <span className="px-2.5 py-1 bg-primary/5 text-primary text-[12px] font-semibold rounded-full border border-primary/10">
                           {job.category}
                         </span>
                       </td>
@@ -225,7 +225,7 @@ export default function AdminJobsView() {
                         <div className="flex items-center justify-center gap-2 opacity-90 group-hover:opacity-100 transition-opacity">
                           <button 
                             onClick={(e) => { e.stopPropagation(); openModal("view", job); }} 
-                            className="p-2 text-[#4640DE] bg-[#4640DE]/10 hover:bg-[#4640DE]/20 rounded-lg transition-colors"
+                            className="p-2 text-primary bg-primary/10 hover:bg-primary/20 rounded-lg transition-colors"
                           >
                             <Eye className="w-4 h-4" />
                           </button>

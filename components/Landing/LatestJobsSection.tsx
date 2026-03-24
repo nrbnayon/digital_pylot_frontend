@@ -65,7 +65,7 @@ export default function LatestJobsSection() {
 
           <Link
             href="/jobs"
-            className="flex items-center gap-2 text-[#4640DE] font-semibold text-[16px] hover:gap-4 transition-all duration-200 whitespace-nowrap group"
+            className="flex items-center gap-2 text-primary font-semibold text-[16px] hover:gap-4 transition-all duration-200 whitespace-nowrap group"
           >
             Show all jobs
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

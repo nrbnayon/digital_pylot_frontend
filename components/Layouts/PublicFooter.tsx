@@ -13,7 +13,7 @@ export default function PublicFooter() {
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1 flex flex-col gap-6">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 bg-[#4640DE] rounded-full flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center shrink-0">
                 <Image src="/icons/header.png" alt="Logo" width={32} height={32} />
               </div>
               <span className="font-semibold text-[22px] text-white tracking-tight">Obliq</span>
@@ -80,7 +80,7 @@ export default function PublicFooter() {
                 placeholder="Email Address"
                 className="flex-1 min-w-0 px-4 py-3 bg-white/8 border border-white/15 text-white text-[14px] outline-none placeholder:text-white/40 focus:border-white/40 transition-colors font-[Epilogue,sans-serif]"
               />
-              <button className="px-4 py-3 bg-[#4640DE] text-white font-semibold text-[14px] hover:bg-[#3530C4] transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+              <button className="px-4 py-3 bg-primary text-white font-semibold text-[14px] hover:bg-primary/80 transition-colors whitespace-nowrap shrink-0 cursor-pointer">
                 Subscribe
               </button>
             </div>

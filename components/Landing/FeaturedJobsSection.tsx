@@ -47,7 +47,7 @@ export default function FeaturedJobsSection() {
           </motion.h2>
           <Link
             href="/jobs"
-            className="flex items-center gap-2 text-[#4640DE] font-semibold text-[15px] hover:gap-3 transition-all duration-200 whitespace-nowrap"
+            className="flex items-center gap-2 text-primary font-semibold text-[15px] hover:gap-3 transition-all duration-200 whitespace-nowrap"
           >
             Show all jobs <ArrowRight className="w-5 h-5" />
           </Link>

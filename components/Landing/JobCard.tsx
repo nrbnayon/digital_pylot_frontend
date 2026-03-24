@@ -11,7 +11,7 @@ const badgeStyles: Record<BadgeVariant, string> = {
   "Full-Time": "text-[#56CDAD] border-[#56CDAD] bg-[#56CDAD]/10",
   "Part-Time": "text-[#FFB836] border-[#FFB836] bg-[#FFB836]/10",
   "Contract": "text-[#FF6550] border-[#FF6550] bg-[#FF6550]/10",
-  "Remote": "text-[#4640DE] border-[#4640DE] bg-[#4640DE]/10",
+  "Remote": "text-primary border-primary bg-primary/10",
   "Internship": "text-[#26A4FF] border-[#26A4FF] bg-[#26A4FF]/10",
 };
 
@@ -52,7 +52,7 @@ export default function JobCard({ job, variant = "grid", shadow = false }: JobCa
     return (
       <Link
         href={`/jobs/${job.id}`}
-        className={`flex items-start gap-6 p-6 transition-all duration-300 cursor-pointer group bg-white border border-white hover:border-[#4640DE] active:scale-[0.98] ${
+        className={`flex items-start gap-6 p-6 transition-all duration-300 cursor-pointer group bg-white border border-white hover:border-primary active:scale-[0.98] ${
           shadow ? "shadow-[0_2px_18px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_32px_rgba(70,64,222,0.08)]" : ""
         }`}
       >
@@ -62,7 +62,7 @@ export default function JobCard({ job, variant = "grid", shadow = false }: JobCa
         {/* Content Right */}
         <div className="flex-1 min-w-0 flex flex-col gap-2">
           {/* Title */}
-          <h3 className="font-semibold text-[18px] sm:text-[20px] text-[#25324B] group-hover:text-[#4640DE] transition-colors truncate leading-tight">
+          <h3 className="font-semibold text-[18px] sm:text-[20px] text-[#25324B] group-hover:text-primary transition-colors truncate leading-tight">
             {job.title}
           </h3>
 
@@ -87,7 +87,7 @@ export default function JobCard({ job, variant = "grid", shadow = false }: JobCa
                 className={`px-4 py-1.5 border text-[12px] font-semibold rounded-full ${
                   idx === 0
                     ? "text-[#FFB836] border-[#FFB836] bg-[#FFB836]/10" // Marketing style
-                    : "text-[#4640DE] border-[#4640DE] bg-[#4640DE]/10" // Design style
+                    : "text-primary border-primary bg-primary/10" // Design style
                 }`}
               >
                 {tag}
@@ -102,7 +102,7 @@ export default function JobCard({ job, variant = "grid", shadow = false }: JobCa
   return (
     <Link
       href={`/jobs/${job.id}`}
-      className="border border-[#D6DDEB] p-7 flex flex-col gap-4 cursor-pointer hover:border-[#4640DE] hover:shadow-[0_8px_32px_rgba(70,64,222,0.1)] hover:-translate-y-1 transition-all duration-200 bg-white group block"
+      className="border border-[#D6DDEB] p-7 flex flex-col gap-4 cursor-pointer hover:border-primary hover:shadow-[0_8px_32px_rgba(70,64,222,0.1)] hover:-translate-y-1 transition-all duration-200 bg-white group block"
     >
       <div className="flex items-start justify-between">
         <JobLogo job={job} />
@@ -111,7 +111,7 @@ export default function JobCard({ job, variant = "grid", shadow = false }: JobCa
         </span>
       </div>
       <div>
-        <p className="font-clash font-semibold text-[18px] text-[#25324B] mb-1 group-hover:text-[#4640DE] transition-colors">
+        <p className="font-clash font-semibold text-[18px] text-[#25324B] mb-1 group-hover:text-primary transition-colors">
           {job.title}
         </p>
         <p className="text-[15px] text-[#515B6F] flex items-center gap-2">
@@ -121,7 +121,7 @@ export default function JobCard({ job, variant = "grid", shadow = false }: JobCa
         </p>
       </div>
       {job.salary && (
-        <p className="text-[14px] font-semibold text-[#4640DE]">{job.salary}</p>
+        <p className="text-[14px] font-semibold text-primary">{job.salary}</p>
       )}
       <div className="flex flex-wrap gap-2">
         {job.tags.map((tag) => (

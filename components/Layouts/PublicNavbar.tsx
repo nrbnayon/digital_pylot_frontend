@@ -62,13 +62,13 @@ export default function PublicNavbar() {
           <nav className="hidden md:flex items-center gap-2 h-full">
             <Link
               href="/jobs"
-              className="font-medium text-[16px] text-[#515B6F] hover:text-[#4640DE] transition-colors px-3 py-2"
+              className="font-medium text-[16px] text-[#515B6F] hover:text-primary transition-colors px-3 py-2"
             >
               Find Jobs
             </Link>
             <Link
               href="#"
-              className="font-medium text-[16px] text-[#515B6F] hover:text-[#4640DE] transition-colors px-3 py-2"
+              className="font-medium text-[16px] text-[#515B6F] hover:text-primary transition-colors px-3 py-2"
             >
               Browse Companies
             </Link>
@@ -81,13 +81,13 @@ export default function PublicNavbar() {
                 {role === "admin" && (
                   <Link
                     href="/admin/dashboard"
-                    className="font-semibold text-[14px] text-[#4640DE] bg-[#4640DE]/10 px-4 py-2 rounded-lg hover:bg-[#4640DE]/20 transition-all mr-2"
+                    className="font-semibold text-[14px] text-primary bg-primary/10 px-4 py-2 rounded-lg hover:bg-primary/20 transition-all mr-2"
                   >
                     Dashboard
                   </Link>
                 )}
                 <Link href="/profile" className="flex items-center gap-2.5 group">
-                  <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-[#D6DDEB] group-hover:border-[#4640DE] transition-colors relative bg-[#F8F8FD]">
+                  <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-[#D6DDEB] group-hover:border-primary transition-colors relative bg-[#F8F8FD]">
                     <Image src={image || "/images/avatar.png"} alt="Profile" fill className="object-cover" sizes="36px" />
                   </div>
                   <span className="text-[14px] font-semibold text-[#25324B]">{name || "User"}</span>
@@ -103,14 +103,14 @@ export default function PublicNavbar() {
               <>
                 <Link
                   href="/signin"
-                  className="font-semibold text-[16px] text-[#4640DE] px-6 py-3 hover:bg-[#CCCCF5]/30 rounded transition-colors"
+                  className="font-semibold text-[16px] text-primary px-6 py-3 hover:bg-[#CCCCF5]/30 rounded transition-colors"
                 >
                   Login
                 </Link>
                 <div className="w-px h-10 bg-[#D6DDEB]" />
                 <Link
                   href="/signup"
-                  className="font-semibold text-[16px] text-white bg-[#4640DE] px-6 py-3 hover:bg-[#3530C4] transition-colors"
+                  className="font-semibold text-[16px] text-white bg-primary px-6 py-3 hover:bg-primary/80 transition-colors"
                 >
                   Sign Up
                 </Link>
@@ -138,14 +138,14 @@ export default function PublicNavbar() {
           >
             <Link
               href="#"
-              className="block py-3 text-[16px] font-medium text-[#515B6F] hover:text-[#4640DE] border-b border-[#D6DDEB]"
+              className="block py-3 text-[16px] font-medium text-[#515B6F] hover:text-primary border-b border-[#D6DDEB]"
               onClick={() => setMobileOpen(false)}
             >
               Find Jobs
             </Link>
             <Link
               href="#"
-              className="block py-3 text-[16px] font-medium text-[#515B6F] hover:text-[#4640DE] border-b border-[#D6DDEB]"
+              className="block py-3 text-[16px] font-medium text-[#515B6F] hover:text-primary border-b border-[#D6DDEB]"
               onClick={() => setMobileOpen(false)}
             >
               Browse Companies
@@ -154,14 +154,14 @@ export default function PublicNavbar() {
               <div className="flex gap-3 pt-4">
                 <Link
                   href="/signin"
-                  className="flex-1 text-center font-semibold text-[15px] text-[#4640DE] border-2 border-[#4640DE] py-3 rounded transition-colors hover:bg-[#CCCCF5]/30"
+                  className="flex-1 text-center font-semibold text-[15px] text-primary border-2 border-primary py-3 rounded transition-colors hover:bg-[#CCCCF5]/30"
                   onClick={() => setMobileOpen(false)}
                 >
                   Login
                 </Link>
                 <Link
                   href="/signup"
-                  className="flex-1 text-center font-semibold text-[15px] text-white bg-[#4640DE] py-3 rounded transition-colors hover:bg-[#3530C4]"
+                  className="flex-1 text-center font-semibold text-[15px] text-white bg-primary py-3 rounded transition-colors hover:bg-primary/80"
                   onClick={() => setMobileOpen(false)}
                 >
                   Sign Up
@@ -172,7 +172,7 @@ export default function PublicNavbar() {
                 {role === "admin" && (
                   <Link
                     href="/admin/dashboard"
-                    className="block w-full py-3 px-4 font-semibold text-[16px] text-white bg-[#4640DE] hover:bg-[#3530C4] text-center rounded transition-all"
+                    className="block w-full py-3 px-4 font-semibold text-[16px] text-white bg-primary hover:bg-primary/80 text-center rounded transition-all"
                     onClick={() => setMobileOpen(false)}
                   >
                     Admin Dashboard
