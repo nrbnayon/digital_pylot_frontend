@@ -9,7 +9,7 @@ export default function SuccessPage() {
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-[#FCFCFD]">
       {/* Logo */}
-      <div className="absolute top-8 left-8">
+      <Link href="/" className="absolute top-8 left-8 hover:opacity-80 transition-opacity">
         <Image
           src="/icons/logo.svg"
           alt="Obliq Logo"
@@ -17,7 +17,7 @@ export default function SuccessPage() {
           height={40}
           className="h-auto"
         />
-      </div>
+      </Link>
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}

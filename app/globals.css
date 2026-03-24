@@ -207,14 +207,17 @@
     background: #FFFFFF;
     border: 10px solid #00000005;
     box-shadow: 
-      0px 16px 34px 0px #C2C2C21A,
-      0px 62px 62px 0px #C2C2C217,
-      0px 140px 84px 0px #C2C2C20D,
-      0px 249px 100px 0px #C2C2C203,
       0px 389px 109px 0px #C2C2C200;
     border-radius: 40px;
   }
 }
+
+/* box-shadow: 
+      0px 16px 34px 0px #C2C2C21A,
+      0px 62px 62px 0px #C2C2C217,
+      0px 140px 84px 0px #C2C2C20D,
+      0px 249px 100px 0px #C2C2C203,
+      0px 389px 109px 0px #C2C2C200; */
 
 /* ===== Animations ===== */
 @keyframes fade-in {

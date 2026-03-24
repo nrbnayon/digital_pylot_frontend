@@ -14,14 +14,16 @@ export default function PrivacyPolicyPage() {
         {/* Header */}
         <div className="text-center space-y-4">
           <div className="flex justify-center mb-8">
-            <Image
-              src="/icons/logo.svg"
-              alt="Logo"
-              width={110}
-              height={40}
-              className="h-auto"
-              priority
-            />
+            <Link href="/" className="hover:opacity-80 transition-opacity">
+              <Image
+                src="/icons/logo.svg"
+                alt="Logo"
+                width={110}
+                height={40}
+                className="h-auto"
+                priority
+              />
+            </Link>
           </div>
           <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">Privacy Policy</h1>
           <p className="text-lg text-secondary">Last updated: {new Date().toLocaleDateString()}</p>
