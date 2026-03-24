@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   setCredentials,
+  updateTokens,
   logout as logoutAction,
   selectCurrentUser,
   selectIsAuthenticated,
 } from "@/redux/features/authSlice";
 import { useLogoutMutation } from "@/redux/services/authApi";
-import { usersData } from "@/data/usersData";
 
 export interface UserInfo {
   name: string | null;
@@ -25,7 +25,7 @@ export interface UserInfo {
 
 /**
  * Custom hook to manage user authentication state.
- * Synchronizes Redux state with Cookies for persistence.
+ * Synchronizes Redux state with backend session refresh.
  */
 export function useUser() {
   const dispatch = useAppDispatch();
@@ -48,37 +48,84 @@ export function useUser() {
       return null;
     };
 
-    const hydrateAuth = () => {
+    const hydrateAuth = async () => {
       // If Redux is already authenticated, we are good.
       if (isAuthenticated) {
         setIsChecking(false);
         return;
       }
 
-      // precise sync: try to restore session from cookies
-      const accessToken = getCookie("accessToken");
       const role = getCookie("userRole");
       const rawEmail = getCookie("userEmail");
       const permissionsStr = getCookie("userPermissions");
+      const userName = getCookie("userName");
       const email = rawEmail ? decodeURIComponent(rawEmail) : "";
 
-      if (accessToken && role) {
-        // SIMULATE API CALL: Find user details from dummy data
-        const foundUser = usersData.find((u) => u.email === email);
-        const userName = foundUser ? foundUser.name : "User"; // Default if not found
-        const userImage = foundUser ? foundUser.avatar : undefined;
-        let p = [];
+      if (role) {
+        let p: string[] = [];
         try {
           if (permissionsStr) p = JSON.parse(decodeURIComponent(permissionsStr));
-        } catch (e) {}
+        } catch {}
 
-        // Dispatch to Redux to sync state
-        dispatch(
-          setCredentials({
-            user: { name: userName, email, role, image: userImage, permissions: p },
-            token: accessToken,
-          }),
-        );
+        try {
+          const refreshRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/auth/refresh`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+          });
+
+          if (!refreshRes.ok) {
+            setIsChecking(false);
+            return;
+          }
+
+          const refreshPayload = await refreshRes.json();
+          const accessToken = refreshPayload?.access_token;
+
+          if (!accessToken) {
+            setIsChecking(false);
+            return;
+          }
+
+          dispatch(updateTokens({ token: accessToken }));
+
+          const meRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/auth/me`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: { Authorization: `Bearer ${accessToken}` }
+          });
+
+          if (meRes.ok) {
+            const me = await meRes.json();
+            dispatch(
+              setCredentials({
+                user: {
+                  name: me?.name || (userName ? decodeURIComponent(userName) : "User"),
+                  email: me?.email || email,
+                  role: me?.role || role,
+                  avatar: me?.avatar || null,
+                  permissions: me?.permissions || p,
+                },
+                token: accessToken,
+              }),
+            );
+          } else {
+            dispatch(
+              setCredentials({
+                user: {
+                  name: userName ? decodeURIComponent(userName) : "User",
+                  email,
+                  role,
+                  avatar: null,
+                  permissions: p,
+                },
+                token: accessToken,
+              }),
+            );
+          }
+        } catch (error) {
+          console.error('Session hydrate failed:', error);
+        }
       }
 
       setIsChecking(false);
@@ -103,7 +150,7 @@ export function useUser() {
     dispatch(logoutAction());
 
     // 3. Clear Client-side Cookies
-    const cookiesToClear = ["accessToken", "refreshToken", "userRole", "userEmail", "userPermissions", "reset_verified"];
+    const cookiesToClear = ["userRole", "userEmail", "userName", "userPermissions", "reset_verified"];
     cookiesToClear.forEach(name => {
       document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     });
@@ -123,7 +170,7 @@ export function useUser() {
     name: redUser?.name || null,
     role: redUser?.role || null,
     email: redUser?.email || null,
-    image: redUser?.image || null,
+    avatar: redUser?.avatar || null,
     permissions: redUser?.permissions || [],
     hasPermission,
     // We don't necessarily store the token string in the public `user` object in Redux if we want to be minimal,

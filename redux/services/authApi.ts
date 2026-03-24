@@ -12,8 +12,7 @@ interface SigninResponse {
   email: string;
   role: string | "admin" | "manager" | "agent" | "customer" | "user";
   permissions: string[];
-  accessToken: string; // renamed
-  refreshToken: string;
+  accessToken: string;
 }
 
 interface SignupRequest {

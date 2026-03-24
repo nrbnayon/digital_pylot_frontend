@@ -78,21 +78,19 @@ export const SignInForm = ({ isAdmin = false }: SignInFormProps) => {
         })
       );
 
-      const maxAge = cleanData.rememberMe ? 86400 * 7 : undefined;
-
-      // Ensure access token is saved in cookie for hydration
-      document.cookie = `accessToken=${response.accessToken}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
-      document.cookie = `refreshToken=${response.refreshToken}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
-      document.cookie = `userRole=${userPayload.role}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
-      document.cookie = `userEmail=${encodeURIComponent(userPayload.email)}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
-      document.cookie = `userPermissions=${encodeURIComponent(JSON.stringify(userPayload.permissions))}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
-
       toast.success("Logged in successfully!");
       // dynamically redirect by role or proxy.ts will
       router.push(userPayload.role === "admin" ? "/admin/dashboard" : "/");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Signin error:", error);
-      toast.error(error?.data?.message || "Signin failed. Please try again.");
+      const message =
+        typeof error === "object" &&
+        error !== null &&
+        "data" in error &&
+        typeof (error as { data?: { message?: string } }).data?.message === "string"
+          ? (error as { data?: { message?: string } }).data?.message
+          : "Signin failed. Please try again.";
+      toast.error(message);
     }
   };
 

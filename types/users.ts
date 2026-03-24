@@ -11,4 +11,5 @@ id: string;
   updatedAt?: string;
   phone?: string;
   permissions?: string[];
+  image?: string | null;
 }

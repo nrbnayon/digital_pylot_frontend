@@ -3,7 +3,10 @@ import type { IconSvgElement } from "@hugeicons/react";
 import {
 	Bell,
 	FileText,
+	Flag,
 	List,
+	ListChecks,
+	PieChart,
 	ShieldCheck,
 } from "lucide-react";
 import {
@@ -45,6 +48,30 @@ export const sidebarLinks: SidebarLink[] = [
 		href: "/admin/applications",
 		icon: FileText,
 		permission: "view_applications",
+	},
+	{
+		label: "Leads",
+		href: "/admin/leads",
+		icon: Flag,
+		permission: "view_leads",
+	},
+	{
+		label: "Tasks",
+		href: "/admin/tasks",
+		icon: ListChecks,
+		permission: "view_tasks",
+	},
+	{
+		label: "Reports",
+		href: "/admin/reports",
+		icon: PieChart,
+		permission: "view_reports",
+	},
+	{
+		label: "Audit Logs",
+		href: "/admin/audit-logs",
+		icon: FileText,
+		permission: "view_audit_logs",
 	},
 	{
 		label: "Categories",

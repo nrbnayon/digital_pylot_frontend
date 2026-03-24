@@ -14,37 +14,50 @@ import { useUser } from "@/hooks/useUser";
  *   }
  * }
  */
-export const PERMISSIONS = {
-  member: {
-    create: ["admin"],
-    edit: ["admin"],
-    delete: ["admin"],
-    view: ["admin", "user"],
+export const PERMISSIONS: Record<string, Record<string, string>> = {
+  dashboard: {
+    view: "view_dashboard",
   },
-  billing: {
-    view: ["admin"],
-    edit: ["admin"],
-    delete: ["admin"],
+  jobs: {
+    view: "view_jobs",
+    manage: "manage_jobs",
   },
-  property: {
-    create: ["admin"],
-    edit: ["admin"],
-    delete: ["admin"],
-    view: ["admin", "user"],
+  applications: {
+    view: "view_applications",
+    submit: "submit_applications",
+    manage: "manage_applications",
+  },
+  users: {
+    manage: "manage_users",
   },
   reports: {
-    view: ["admin", "user"],
-    create: ["admin"],
-    download: ["admin", "user"],
+    view: "view_reports",
+    export: "export_reports",
   },
-  // Add more resources and permissions here
+  leads: {
+    view: "view_leads",
+    manage: "manage_leads",
+  },
+  tasks: {
+    view: "view_tasks",
+    manage: "manage_tasks",
+  },
+  settings: {
+    manage: "manage_settings",
+  },
+  audit: {
+    view: "view_audit_logs",
+  },
+  customer: {
+    view_portal: "view_customer_portal",
+  },
 };
 
 export type Resource = keyof typeof PERMISSIONS;
 export type Action<T extends Resource> = keyof (typeof PERMISSIONS)[T];
 
 export function usePermission() {
-  const { role } = useUser();
+  const { hasPermission } = useUser();
 
   /**
    * Check if the current user has permission to perform an action on a resource.
@@ -54,22 +67,13 @@ export function usePermission() {
    * @returns true if authorized, false otherwise
    */
   const can = (resource: string, action: string): boolean => {
-    if (!role) return false;
-
-    // Type safety workaround since keys are strings at runtime
-    const resourcePermissions = PERMISSIONS[resource as Resource];
+    const resourcePermissions = PERMISSIONS[resource as Resource] as Record<string, string> | undefined;
     if (!resourcePermissions) return false;
 
-    const allowedRoles =
-      resourcePermissions[action as keyof typeof resourcePermissions];
-    if (!allowedRoles) return false;
+    const atom = resourcePermissions[action];
+    if (!atom) return false;
 
-    // Check if the user's role is in the allowed roles list
-    // You can extend this logic to support hierarchical roles if needed
-    // e.g. if (role === 'admin') return true;
-
-    // Simple exact match for now
-    return (allowedRoles as string[]).includes(role);
+    return hasPermission(atom);
   };
 
   return { can };

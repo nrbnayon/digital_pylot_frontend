@@ -38,9 +38,14 @@ const INFO_ROUTES: string[] = ["/privacy-policy", "/terms", "/about-us"];
 
 // Map of page prefixes to required permission atoms
 const PERMISSION_ROUTES: Record<string, string> = {
+  "/admin": "view_dashboard",
   "/admin/dashboard": "view_dashboard",
   "/admin/jobs": "manage_jobs",
   "/admin/applications": "view_applications",
+  "/admin/leads": "view_leads",
+  "/admin/tasks": "view_tasks",
+  "/admin/reports": "view_reports",
+  "/admin/audit-logs": "view_audit_logs",
   "/admin/categories": "manage_categories",
   "/admin/users": "manage_users",
   "/admin/settings": "manage_settings",
@@ -120,7 +125,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   const role = rawRole.toLowerCase();
 
   // refreshToken acts as our proof of session since accessToken is in memory
-  const isAuthenticated = !!request.cookies.get(COOKIES.REFRESH_TOKEN) || !!request.cookies.get(COOKIES.ACCESS_TOKEN);
+  const isAuthenticated = !!request.cookies.get(COOKIES.REFRESH_TOKEN);
 
   if (matchesRoute(pathname, AUTH_ROUTES)) {
     if (isAuthenticated) {
