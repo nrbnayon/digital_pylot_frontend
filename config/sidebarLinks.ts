@@ -98,7 +98,7 @@ export const sidebarLinks: SidebarLink[] = [
 		permission: "view_notifications",
 	},
 	{
-		label: "My Applications",
+		label: "Applications",
 		href: "/admin/applications",
 		icon: ListChecks,
 		// No permission required, visible to all users
