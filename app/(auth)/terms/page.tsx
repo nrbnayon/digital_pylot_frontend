@@ -17,9 +17,9 @@ export default function TermsOfServicePage() {
             <Image
               src="/icons/logo.svg"
               alt="Logo"
-              width={140}
-              height={140}
-              className="w-28 sm:w-36 h-auto"
+              width={110}
+              height={40}
+              className="h-auto"
               priority
             />
           </div>

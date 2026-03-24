@@ -8,21 +8,22 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="relative min-h-screen w-full flex flex-col lg:flex-row bg-[#FCFCFD] overflow-x-hidden">
+    <main className="relative min-h-screen lg:h-screen w-full flex flex-col lg:flex-row bg-[#FCFCFD] lg:overflow-hidden">
       {/* Shared Logo for Auth Pages */}
-      <div className="lg:absolute top-8 left-8 p-6 lg:p-0 z-50 flex items-center gap-2">
+      <div className="lg:absolute top-8 left-8 lg:p-0 z-50 flex items-center gap-2">
         <Image
           src="/icons/logo.svg"
           alt="Obliq Logo"
-          width={40}
+          width={110}
           height={40}
-          className="w-10 h-auto"
+          className="h-auto"
+          priority
         />
       </div>
 
       {/* Left Column - Form Container */}
-      <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 lg:p-12 relative z-10">
-        <div className="auth-card w-full max-w-xl p-8 sm:p-12 md:p-16">
+      <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 lg:p-12 relative z-10 overflow-y-auto h-full scrollbar-hidden">
+        <div className="auth-card my-12 w-full max-w-xl p-8 sm:p-12 md:p-16">
           {children}
         </div>
       </div>
@@ -32,4 +33,3 @@ export default function AuthLayout({
     </main>
   );
 }
-
