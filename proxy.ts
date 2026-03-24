@@ -38,6 +38,7 @@ const INFO_ROUTES: string[] = ["/privacy-policy", "/terms", "/about-us"];
 
 // Map of page prefixes to required permission atoms
 const PERMISSION_ROUTES: Record<string, string> = {
+  "/user/dashboard": "view_dashboard",
   "/admin": "view_dashboard",
   "/admin/dashboard": "view_dashboard",
   "/admin/jobs": "manage_jobs",
@@ -130,6 +131,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   if (matchesRoute(pathname, AUTH_ROUTES)) {
     if (isAuthenticated) {
       if (role === 'customer') return redirectTo('/customer/portal', request);
+      if (role === 'user') return redirectTo('/user/dashboard', request);
       return redirectTo('/admin/dashboard', request);
     }
     return allow();

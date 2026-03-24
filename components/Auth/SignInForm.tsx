@@ -79,8 +79,14 @@ export const SignInForm = ({ isAdmin = false }: SignInFormProps) => {
       );
 
       toast.success("Logged in successfully!");
-      // dynamically redirect by role or proxy.ts will
-      router.push(userPayload.role === "admin" ? "/admin/dashboard" : "/");
+
+      if (userPayload.role === "customer") {
+        router.push("/customer/portal");
+      } else if (userPayload.role === "user") {
+        router.push("/user/dashboard");
+      } else {
+        router.push("/admin/dashboard");
+      }
     } catch (error: unknown) {
       console.error("Signin error:", error);
       const message =

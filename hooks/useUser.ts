@@ -16,7 +16,7 @@ export interface UserInfo {
   name: string | null;
   role: string | null;
   email: string | null;
-  image: string | null;
+  avatar: string | null;
   accessToken: string | null;
   permissions: string[];
   isAuthenticated: boolean;
