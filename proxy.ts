@@ -16,6 +16,7 @@ const ENV = {
 const COOKIES = {
   ACCESS_TOKEN: "accessToken",
   REFRESH_TOKEN: "refreshToken", 
+  AUTH_SESSION: "authSession",
   USER_PERMISSIONS: "userPermissions",
   USER_ROLE: "userRole", // Still kept for landing redirects
   CSRF_TOKEN: "csrfToken",
@@ -130,8 +131,11 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   const rawRole = request.cookies.get(COOKIES.USER_ROLE)?.value || "";
   const role = rawRole.toLowerCase();
 
-  // refreshToken acts as our proof of session since accessToken is in memory
-  const isAuthenticated = !!request.cookies.get(COOKIES.REFRESH_TOKEN);
+  // Frontend-domain auth marker for route protection.
+  // Keep refreshToken fallback for backward compatibility during rollout.
+  const isAuthenticated =
+    !!request.cookies.get(COOKIES.AUTH_SESSION) ||
+    !!request.cookies.get(COOKIES.REFRESH_TOKEN);
 
   if (matchesRoute(pathname, AUTH_ROUTES)) {
     if (isAuthenticated) {

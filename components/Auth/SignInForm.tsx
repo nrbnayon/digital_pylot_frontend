@@ -77,9 +77,7 @@ export const SignInForm = ({ isAdmin = false }: SignInFormProps) => {
       setClientCookie("userName", response.name || "User", maxAgeSeconds);
       setClientCookie("userPermissions", JSON.stringify(response.permissions || []), maxAgeSeconds);
 
-      if (response.refreshToken) {
-        setClientCookie("refreshToken", response.refreshToken, maxAgeSeconds);
-      }
+      setClientCookie("authSession", "1", maxAgeSeconds);
 
       const userPayload = {
         name: response.name || "User",

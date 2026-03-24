@@ -152,7 +152,7 @@ export function useUser() {
     dispatch(logoutAction());
 
     // 3. Clear Client-side Cookies
-    const cookiesToClear = ["refreshToken", "userRole", "userEmail", "userName", "userPermissions", "reset_verified"];
+    const cookiesToClear = ["refreshToken", "authSession", "userRole", "userEmail", "userName", "userPermissions", "reset_verified"];
     cookiesToClear.forEach(name => {
       document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     });
