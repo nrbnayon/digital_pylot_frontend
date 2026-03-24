@@ -114,7 +114,7 @@ export default function UserDashboardOverview() {
   const grantedSections = SECTION_CARDS.filter((item) => hasPermission(item.atom));
 
   if (isLoading) {
-    return <div className="p-8">Loading dashboard context...</div>;
+    return <div className="p-8 flex items-center justify-center h-full">Loading dashboard context...</div>;
   }
 
   return (
