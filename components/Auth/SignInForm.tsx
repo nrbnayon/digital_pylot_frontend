@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 
 import { useAppDispatch } from "@/redux/hooks";
 import { setCredentials } from "@/redux/features/authSlice";
+import { useSigninMutation } from "@/redux/services/authApi";
 import { toast } from "sonner";
 import { signinValidationSchema } from "@/lib/formDataValidation";
 
@@ -28,9 +29,9 @@ interface SignInFormProps {
 
 export const SignInForm = ({ isAdmin = false }: SignInFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [signin, { isLoading }] = useSigninMutation();
 
   const {
     register,
@@ -59,37 +60,39 @@ export const SignInForm = ({ isAdmin = false }: SignInFormProps) => {
       password: data.password.trim(),
     };
 
-    setIsLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500)); // simulate delay
+      const response = await signin(cleanData).unwrap();
 
-      const mockUser = {
-        name: isAdmin ? "Admin User" : "Regular User",
-        email: cleanData.email,
-        role: isAdmin ? "admin" : "user",
+      const userPayload = {
+        name: response.name || "User",
+        email: response.email,
+        role: response.role,
+        permissions: response.permissions,
         image: "/images/avatar.png",
       };
-      const mockToken = `mock_access_token_${Date.now()}`;
 
       dispatch(
         setCredentials({
-          user: mockUser,
-          token: mockToken,
+          user: userPayload,
+          token: response.token,
         })
       );
 
-      const maxAge = cleanData.rememberMe ? 86400 : undefined;
-      document.cookie = `accessToken=${mockToken}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
-      document.cookie = `userRole=${mockUser.role}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
-      document.cookie = `userEmail=${encodeURIComponent(mockUser.email)}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
+      const maxAge = cleanData.rememberMe ? 86400 * 7 : undefined;
 
-      toast.success(isAdmin ? "Admin logged in successfully!" : "Logged in successfully!");
-      router.push(isAdmin ? "/admin" : "/");
-    } catch (error) {
+      // Ensure access token is saved in cookie for hydration
+      document.cookie = `accessToken=${response.token}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
+      document.cookie = `jwt=${response.refreshToken}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
+      document.cookie = `userRole=${userPayload.role}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
+      document.cookie = `userEmail=${encodeURIComponent(userPayload.email)}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
+      document.cookie = `userPermissions=${encodeURIComponent(JSON.stringify(userPayload.permissions))}; path=/; ${maxAge ? `max-age=${maxAge};` : ""} samesite=lax`;
+
+      toast.success("Logged in successfully!");
+      // dynamically redirect by role or proxy.ts will
+      router.push(userPayload.role === "admin" ? "/admin/dashboard" : "/");
+    } catch (error: any) {
       console.error("Signin error:", error);
-      toast.error("Signin failed. Please try again.");
-    } finally {
-      setIsLoading(false);
+      toast.error(error?.data?.message || "Signin failed. Please try again.");
     }
   };
 

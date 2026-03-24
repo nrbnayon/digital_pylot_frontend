@@ -17,14 +17,15 @@ import { cn } from "@/lib/utils";
 
 import { toast } from "sonner";
 import { signupValidationSchema } from "@/lib/formDataValidation";
+import { useSignupMutation } from "@/redux/services/authApi";
 
 type FormValues = z.infer<typeof signupValidationSchema>;
 
 export const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const [signup, { isLoading }] = useSignupMutation();
 
   const {
     register,
@@ -50,16 +51,18 @@ export const SignUpForm = () => {
   };
 
   const onSubmit = async (data: FormValues) => {
-    setIsLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await signup({
+        name: data.full_name,
+        email: data.email,
+        password: data.password
+      }).unwrap();
+
       toast.success("Account created successfully! Please log in.");
       router.push("/signin");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Signup error:", error);
-      toast.error("Registration failed. Please try again.");
-    } finally {
-      setIsLoading(false);
+      toast.error(error?.data?.message || "Registration failed. Please try again.");
     }
   };
 

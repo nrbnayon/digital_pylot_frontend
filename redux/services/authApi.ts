@@ -8,12 +8,18 @@ interface SigninRequest {
 }
 
 interface SigninResponse {
-  user: {
-    email: string;
-    role: string;
-  };
-  accessToken: string;
+  name: string;
+  email: string;
+  role: string | "admin" | "manager" | "agent" | "customer" | "user";
+  permissions: string[];
+  token: string;
   refreshToken: string;
+}
+
+interface SignupRequest {
+  name: string;
+  email: string;
+  password: string;
 }
 
 interface VerifyOtpRequest {
@@ -32,7 +38,17 @@ export const authApi = apiSlice.injectEndpoints({
     // Signin endpoint
     signin: builder.mutation<SigninResponse, SigninRequest>({
       query: (credentials) => ({
-        url: '/auth /signin',
+        url: '/auth/login',
+        method: 'POST',
+        body: credentials,
+      }),
+      invalidatesTags: ['Auth'],
+    }),
+
+    // Signup endpoint
+    signup: builder.mutation<SigninResponse, SignupRequest>({
+      query: (credentials) => ({
+        url: '/auth/register',
         method: 'POST',
         body: credentials,
       }),
@@ -58,7 +74,7 @@ export const authApi = apiSlice.injectEndpoints({
     }),
     
     // Get current user
-    getCurrentUser: builder.query<SigninResponse['user'], void>({
+    getCurrentUser: builder.query<any, void>({
       query: () => '/auth/me',
       providesTags: ['Auth'],
     }),
@@ -68,6 +84,7 @@ export const authApi = apiSlice.injectEndpoints({
 // Export hooks for usage in functional components
 export const {
   useSigninMutation,
+  useSignupMutation,
   useVerifyOtpMutation,
   useLogoutMutation,
   useGetCurrentUserQuery,
