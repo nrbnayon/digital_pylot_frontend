@@ -13,6 +13,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useResetPasswordMutation } from "@/redux/services/authApi";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const resetPasswordSchema = z
   .object({
@@ -29,11 +32,15 @@ const resetPasswordSchema = z
 
 type FormValues = z.infer<typeof resetPasswordSchema>;
 
-const ResetPassword = () => {
+const ResetPasswordContent = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email") || "";
+  const otp = searchParams.get("otp") || "";
+
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
   const {
     register,
@@ -49,12 +56,11 @@ const ResetPassword = () => {
   });
 
   useEffect(() => {
-    const isVerified = document.cookie.split("; ").find(row => row.startsWith("reset_verified="));
-    if (!isVerified && process.env.NODE_ENV === "production") {
-      toast.error("Unauthorized access. Please verify OTP first.");
+    if (!email || !otp) {
+      toast.error("Invalid reset link. Please start over.");
       router.push("/forgot-password");
     }
-  }, [router]);
+  }, [email, otp, router]);
 
   const handleTrimChange = (field: keyof FormValues) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const trimmed = e.target.value.trim();
@@ -62,17 +68,18 @@ const ResetPassword = () => {
   };
 
   const onSubmit = async (data: FormValues) => {
-    setIsLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await resetPassword({
+        email,
+        otp,
+        newPassword: data.newPassword
+      }).unwrap();
+      
       toast.success("Password reset successfully! Please signin.");
-      document.cookie = "reset_verified=; path=/; max-age=0; SameSite=Strict";
       router.push("/signin"); 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Reset failed:", error);
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setIsLoading(false);
+      toast.error(error?.data?.message || "Something went wrong. Please try again.");
     }
   };
 
@@ -174,5 +181,11 @@ const ResetPassword = () => {
     </motion.div>
   );
 };
+
+const ResetPassword = () => (
+    <Suspense fallback={<div className="flex justify-center p-12"><Loader2 className="animate-spin h-8 w-8 text-primary" /></div>}>
+        <ResetPasswordContent />
+    </Suspense>
+);
 
 export default ResetPassword;

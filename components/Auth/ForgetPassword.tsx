@@ -14,18 +14,20 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { emailValidationSchema } from "@/lib/formDataValidation";
+import { useForgotPasswordMutation } from "@/redux/services/authApi";
 
 type FormValues = z.infer<typeof emailValidationSchema>;
 
 const ForgetPassword = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [countdown, setCountdown] = useState(41);
+  const [countdown, setCountdown] = useState(0); 
   const router = useRouter();
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
   const {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(emailValidationSchema),
@@ -47,16 +49,25 @@ const ForgetPassword = () => {
   };
 
   const onSubmit = async (data: FormValues) => {
-    setIsLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await forgotPassword({ email: data.email }).unwrap();
       toast.success("OTP sent to your email.");
       router.push(`/verify-otp?flow=reset&email=${encodeURIComponent(data.email)}`); 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to send OTP:", error);
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setIsLoading(false);
+      toast.error(error?.data?.message || "Something went wrong. Please try again.");
+    }
+  };
+
+  const handleResend = async () => {
+    const email = getValues("email"); 
+    if (!email) return;
+    try {
+      await forgotPassword({ email }).unwrap();
+      toast.success("OTP resent to your email.");
+      setCountdown(60);
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Resend failed.");
     }
   };
 
@@ -122,7 +133,7 @@ const ForgetPassword = () => {
           <span className="text-secondary font-onest text-lg">Didn&apos;t get the email? </span>
           <button
             type="button"
-            onClick={() => setCountdown(60)}
+            onClick={handleResend}
             disabled={countdown > 0}
             className="text-primary font-bold font-onest text-lg hover:underline disabled:opacity-70 disabled:no-underline ml-1"
           >

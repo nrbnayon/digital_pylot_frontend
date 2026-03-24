@@ -32,6 +32,26 @@ interface VerifyOtpResponse {
   verified: boolean;
 }
 
+interface ForgotPasswordRequest {
+  email: string;
+}
+
+interface ForgotPasswordResponse {
+  message: string;
+  success: boolean;
+}
+
+interface ResetPasswordRequest {
+  email: string;
+  otp: string;
+  newPassword: string;
+}
+
+interface ResetPasswordResponse {
+  message: string;
+  success: boolean;
+}
+
 // Inject endpoints into the API slice
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -64,6 +84,24 @@ export const authApi = apiSlice.injectEndpoints({
       }),
     }),
     
+    // Forgot password endpoint
+    forgotPassword: builder.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
+      query: (data) => ({
+        url: '/auth/forgot-password',
+        method: 'POST',
+        body: data,
+      }),
+    }),
+
+    // Reset password endpoint
+    resetPassword: builder.mutation<ResetPasswordResponse, ResetPasswordRequest>({
+      query: (data) => ({
+        url: '/auth/reset-password',
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    
     // Logout endpoint
     logout: builder.mutation<{ message: string }, void>({
       query: () => ({
@@ -86,6 +124,8 @@ export const {
   useSigninMutation,
   useSignupMutation,
   useVerifyOtpMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
   useLogoutMutation,
   useGetCurrentUserQuery,
 } = authApi;

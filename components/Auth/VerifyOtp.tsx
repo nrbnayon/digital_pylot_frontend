@@ -16,22 +16,26 @@ import {
 } from "@/components/ui/input-otp";
 
 import { toast } from "sonner";
+import { useVerifyOtpMutation, useForgotPasswordMutation } from "@/redux/services/authApi";
 
 const otpSchema = z.object({
-  otp: z.string().min(4, {
-    message: "Your one-time password must be 4 digits.",
+  otp: z.string().length(6, {
+    message: "Your one-time password must be 6 digits.",
   }),
 });
 
 type FormValues = z.infer<typeof otpSchema>;
 
 const VerifyOtpContent = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [countdown, setCountdown] = useState(41);
+  const [countdown, setCountdown] = useState(0);
   const router = useRouter();
   const searchParams = useSearchParams();
   const flow = searchParams.get("flow") || "signup";
   const email = searchParams.get("email") || "";
+
+  const [verifyOtp, { isLoading: isVerifying }] = useVerifyOtpMutation();
+  const [forgotPassword, { isLoading: isResending }] = useForgotPasswordMutation();
+  const isLoading = isVerifying || isResending;
 
   const {
     control,
@@ -57,36 +61,32 @@ const VerifyOtpContent = () => {
       return;
     }
 
-    setIsLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await forgotPassword({ email }).unwrap();
       toast.success(`A new code has been sent to ${email}`);
       setCountdown(60); 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Resend failed:", error);
-      toast.error("Failed to resend OTP. Please try again.");
-    } finally {
-      setIsLoading(false);
+      toast.error(error?.data?.message || "Failed to resend OTP. Please try again.");
     }
   };
 
   const onSubmit = async (data: FormValues) => {
-    setIsLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await verifyOtp({ email, otp: data.otp }).unwrap();
       toast.success("Verification successful!");
       
       if (flow === "reset") {
-        document.cookie = "reset_verified=true; path=/; max-age=300; SameSite=Strict";
-        router.push("/reset-password");
+        // We can pass verified status through a temporary state or params
+        // or the server can return a token that forgotPassword and resetPassword can use
+        // but for now let's just use the query params to pass otp and email to reset-password page
+        router.push(`/reset-password?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(data.otp)}`);
       } else {
         router.push("/signin"); 
       } 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Verification failed:", error);
-      toast.error("Invalid OTP. Please try again.");
-    } finally {
-      setIsLoading(false);
+      toast.error(error?.data?.message || "Invalid OTP. Please try again.");
     }
   };
 
@@ -118,13 +118,13 @@ const VerifyOtpContent = () => {
             control={control}
             name="otp"
             render={({ field }) => (
-              <InputOTP maxLength={4} {...field}>
+              <InputOTP maxLength={6} {...field}>
                 <InputOTPGroup className="gap-2 sm:gap-4">
-                  {[...Array(4)].map((_, index) => (
+                  {[...Array(6)].map((_, index) => (
                     <InputOTPSlot 
                       key={index} 
                       index={index} 
-                      className="w-14 h-16 sm:w-16 sm:h-20 border-2 rounded-2xl border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/10 text-2xl font-bold"
+                      className="w-12 h-14 sm:w-14 sm:h-18 border-2 rounded-xl border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/10 text-xl font-bold font-onest"
                     />
                   ))}
                 </InputOTPGroup>
