@@ -1,10 +1,10 @@
-import PublicLayoutView from "@/components/Layouts/PublicLayoutView";
 import React from "react";
+import DashboardWrapper from "@/components/Sidebar/Sidebar";
 
 export default function UserLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <PublicLayoutView>{children}</PublicLayoutView>;
+  return <DashboardWrapper>{children}</DashboardWrapper>;
 }

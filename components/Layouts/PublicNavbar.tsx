@@ -29,7 +29,7 @@ function ObliqLogo() {
 }
 
 export default function PublicNavbar() {
-  const { name, role, image, isAuthenticated, logout } = useUser();
+  const { name, role, avatar, isAuthenticated, logout } = useUser();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -88,7 +88,7 @@ export default function PublicNavbar() {
                 )}
                 <Link href="/profile" className="flex items-center gap-2.5 group">
                   <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-[#D6DDEB] group-hover:border-primary transition-colors relative bg-[#F8F8FD]">
-                    <Image src={image || "/images/avatar.png"} alt="Profile" fill className="object-cover" sizes="36px" />
+                    <Image src={avatar || "/images/avatar.png"} alt="Profile" fill className="object-cover" sizes="36px" />
                   </div>
                   <span className="text-[14px] font-semibold text-[#25324B]">{name || "User"}</span>
                 </Link>
